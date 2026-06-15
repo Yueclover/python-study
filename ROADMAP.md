@@ -23,8 +23,8 @@
 - [x] Day 2：列表 list & 元组 tuple（对照数组）→ `week01/day02_list_tuple.py`
 - [x] Day 3：字典 dict & 集合 set（对照对象/Map/Set）→ `week01/day03_dict_set.py`
 - [x] Day 4：条件 if/elif/else + 循环 for/while → `week01/day04_control_flow.py`
-- [ ] Day 5：函数 def、参数、返回值、作用域 → `week01/day05_functions.py`
-- [ ] Day 6：推导式 list/dict comprehension（JS 没有的利器）→ `week01/day06_comprehension.py`
+- [x] Day 5：函数 def、参数、返回值、作用域 → `week01/day05_functions.py`
+- [x] Day 6：推导式 list/dict comprehension（JS 没有的利器）→ `week01/day06_comprehension.py`
 - [ ] Day 7：小结综合项目 + LeetCode 复盘 → `week01/day07_review.py`
 
 ### 第 2 周 — Python 特性（JS 里没有，重点）

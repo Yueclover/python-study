@@ -21,7 +21,8 @@ squares = [n ** 2 for n in nums]
 print(squares)
 
 # 👉 试一试：用推导式生成 nums 里每个数的 3 倍
-
+triples = [n * 3 for n in nums]
+print(triples)
 
 # ============================================================
 # 2. 带条件 —— 代替 filter()
@@ -35,7 +36,8 @@ result = [n ** 2 for n in nums if n % 2 == 0]
 print("偶数的平方:", result)
 
 # 👉 试一试：从 nums 里取出大于 2 的数，并各加 100
-
+result = [n + 100 for n in nums if n >2 ]
+print(result)
 
 # ============================================================
 # 3. 三元 + 推导式 —— map 里带条件转换
@@ -62,7 +64,8 @@ long_names = [n for n in names if len(n) > 5]
 print(long_names)            # ['Jennifer', 'Alexander']
 
 # 👉 试一试：把 words 里每个单词去空格后取首字母大写（提示：.strip().capitalize()）
-
+results = [w.strip().capitalize() for w in words]
+print(results)               # ['Hello', 'World', 'Python']
 
 # ============================================================
 # 5. 字典推导式 —— 生成字典
@@ -78,7 +81,8 @@ person = {k: v for k, v in zip(keys, values)}   # zip 把两列表配对
 print(person)
 
 # 👉 试一试：生成一个字典，键是 1-5，值是「键是否为偶数」(True/False)
-
+result = { k: k % 2 ==0 for k in range(1,6)}
+print(result)
 
 # ============================================================
 # 6. 集合推导式

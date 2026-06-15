@@ -53,6 +53,12 @@ low, high = min_max([3, 1, 9, 5])   # 解构接收
 print(f"最小 {low}, 最大 {high}")
 
 # 👉 试一试：写一个函数返回一个列表的「和」与「平均值」
+def sum_average(nums): 
+    return sum(nums), sum(nums) / len(nums)
+
+total, avg = sum_average([3, 1, 9, 5])
+print(f"和 {total}, 平均值 {avg}")
+
 
 
 # ============================================================
@@ -70,7 +76,10 @@ def describe(**info):         # **info 收集所有关键字参数成字典
 describe(name="小明", age=28, job="前端")
 
 # 👉 试一试：用 *args 写一个函数，返回所有传入数字里最大的
+def max_of(*nums):
+    return max(nums)
 
+print(max_of(3, 1, 9, 5))      # 9
 
 # ============================================================
 # 5. lambda —— 匿名函数（对应箭头函数，但只能写一行）
