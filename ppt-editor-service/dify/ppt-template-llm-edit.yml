@@ -66,10 +66,11 @@ workflow:
     - {id: e1, source: start, sourceHandle: source, target: http_parse, targetHandle: target, type: custom, data: {sourceType: start, targetType: http-request, isInIteration: false}}
     - {id: e2, source: http_parse, sourceHandle: source, target: code_extract, targetHandle: target, type: custom, data: {sourceType: http-request, targetType: code, isInIteration: false}}
     - {id: e3, source: code_extract, sourceHandle: source, target: llm_a, targetHandle: target, type: custom, data: {sourceType: code, targetType: llm, isInIteration: false}}
-    - {id: e4, source: llm_a, sourceHandle: source, target: llm_b, targetHandle: target, type: custom, data: {sourceType: llm, targetType: llm, isInIteration: false}}
-    - {id: e5, source: llm_b, sourceHandle: source, target: code_plan, targetHandle: target, type: custom, data: {sourceType: llm, targetType: code, isInIteration: false}}
-    - {id: e6, source: code_plan, sourceHandle: source, target: http_apply_plan, targetHandle: target, type: custom, data: {sourceType: code, targetType: http-request, isInIteration: false}}
-    - {id: e7, source: http_apply_plan, sourceHandle: source, target: end, targetHandle: target, type: custom, data: {sourceType: http-request, targetType: end, isInIteration: false}}
+    - {id: e4, source: llm_a, sourceHandle: source, target: code_join, targetHandle: target, type: custom, data: {sourceType: llm, targetType: code, isInIteration: false}}
+    - {id: e5, source: code_join, sourceHandle: source, target: iteration, targetHandle: target, type: custom, data: {sourceType: code, targetType: iteration, isInIteration: false}}
+    - {id: e6, source: iteration, sourceHandle: source, target: code_assemble, targetHandle: target, type: custom, data: {sourceType: iteration, targetType: code, isInIteration: false}}
+    - {id: e7, source: code_assemble, sourceHandle: source, target: http_apply_plan, targetHandle: target, type: custom, data: {sourceType: code, targetType: http-request, isInIteration: false}}
+    - {id: e8, source: http_apply_plan, sourceHandle: source, target: end, targetHandle: target, type: custom, data: {sourceType: http-request, targetType: end, isInIteration: false}}
     nodes:
     - data:
         desc: ''
@@ -161,18 +162,22 @@ workflow:
         code: |
           def main(parse_body: str) -> dict:
               import json
-              doc_id = ""
-              skeleton = "{}"
+              doc_id, skeleton, pages = "", "{}", "[]"
               try:
                   pj = json.loads(parse_body)
                   doc_id = pj.get("doc_id", "")
-                  skeleton = json.dumps(pj.get("skeleton", {}), ensure_ascii=False)
+                  sk = pj.get("skeleton", {})
+                  skeleton = json.dumps(sk, ensure_ascii=False)
+                  pages = json.dumps(
+                      [{"slide_id": s["slide_id"], "role": s["role"]}
+                       for s in sk.get("slides", [])], ensure_ascii=False)
               except Exception:
                   pass
-              return {"doc_id": doc_id, "skeleton": skeleton}
+              return {"doc_id": doc_id, "skeleton": skeleton, "pages": pages}
         outputs:
           doc_id: {type: string}
           skeleton: {type: string}
+          pages: {type: string}
       id: code_extract
       position: {x: 600, y: 282}
       positionAbsolute: {x: 600, y: 282}
@@ -184,7 +189,7 @@ workflow:
       height: 98
     - data:
         type: llm
-        title: 生成内容
+        title: 大纲规划
         model:
           completion_params:
             temperature: 0.2
@@ -197,31 +202,29 @@ workflow:
         prompt_template:
         - role: system
           text: |
-            你是资深PPT文案专家，只负责创作内容，不管排版、不输出任何 shape_id。
-            只输出 JSON，包含 deck 数组，不要解释、不要代码块包裹。
+            你是PPT结构规划师。根据用户需求和模板页面清单，规划要产出的每一页。
+            只输出 JSON，含 outline 数组，不要解释、不要代码块包裹。
             规则：
-            1. deck 每项的 use 必须取自给定 skeleton 里出现过的页面 role（如 cover/content/table/generic）。
-            2. 可重复页（如 content）用 {"use":"content","repeat":true,"items":[...]}，items 条数按用户需求来，内容要写满、具体、有数据感（每条 2-3 句）。
-            3. 固定页用 {"use":"cover","title":"...","subtitle":"..."} 这类字段。
-            4. 表格页用 {"use":"table","title":"...","table":{"headers":[...],"rows":[[...]]}}。
+            1. outline 每项 = {"use_slide_id":"<模板页slide_id>","role":"<该页role>","brief":"这页要写的内容要点"}。
+            2. 不要改变页面顺序；正文等可重复页要几页就重复列几项（use_slide_id 相同）。
+            3. role 取自页面清单里出现过的值（cover/toc/section/content/table/ending/generic）。
+            4. brief 要具体、可直接据此写文案；正文每项 2-3 句、有数据感。
             输出示例：
-            {"deck":[
-              {"use":"cover","title":"2026 产品发布","subtitle":"让服务快人一步"},
-              {"use":"content","repeat":true,"items":[
-                {"title":"要点一","body":"具体内容……"},
-                {"title":"要点二","body":"具体内容……"}
-              ]},
-              {"use":"table","title":"对比","table":{"headers":["指标","前","后"],"rows":[["响应","30s","3s"]]}}
+            {"outline":[
+              {"use_slide_id":"s1","role":"cover","brief":"主标题:2026产品发布；副标题:让服务快人一步"},
+              {"use_slide_id":"s2","role":"toc","brief":"目录4项:背景/方案/数据/计划"},
+              {"use_slide_id":"s5","role":"content","brief":"背景:市场规模..."},
+              {"use_slide_id":"s5","role":"content","brief":"方案:三步走..."}
             ]}
         - role: user
           text: |
-            模板骨架（skeleton）：
-            {{#code_extract.skeleton#}}
+            模板页面清单（slide_id 与 role）：
+            {{#code_extract.pages#}}
 
             用户需求：
             {{#start.user_brief#}}
 
-            请只输出 deck 的 JSON。
+            请只输出 outline 的 JSON。
       id: llm_a
       position: {x: 860, y: 282}
       positionAbsolute: {x: 860, y: 282}
@@ -232,47 +235,46 @@ workflow:
       width: 244
       height: 98
     - data:
-        type: llm
-        title: 映射到plan
-        model:
-          completion_params:
-            temperature: 0.2
-            thinking: false
-          mode: chat
-          name: qwen3.6-plus
-          provider: wxj/bifrost/bifrost
-        context: {enabled: false, variable_selector: []}
-        vision: {enabled: false}
-        prompt_template:
-        - role: system
-          text: |
-            你是映射器，只把"内容大纲"对到模板骨架的真实 shape_id，不改写内容、不创作。
-            只输出 JSON，包含 plan 数组，不要解释、不要代码块包裹。
-            规则：
-            1. plan 每项的 kind 取 fill / repeat / table / drop 之一。
-            2. fill: {"kind":"fill","slide_id":"<skeleton里的slide_id>","fields":{"<真实shape_id>":"文本"}}。
-            3. repeat: {"kind":"repeat","slide_id":"<可重复页slide_id>","items":[{"<shape_id>":"文本",...}, ...]}，items 条数=内容大纲里该可重复页的 items 条数。
-            4. table: {"kind":"table","shape_id":"<table槽的shape_id>","rows":[[...],[...]]}（含表头行）。
-            5. drop: {"kind":"drop","slide_id":"<用不到的页>"}。
-            6. fields/各item 的 key 必须是 skeleton 中真实存在的 shape_id，严禁编造。
-            7. 不要生成临时ID、不要排 dup 顺序——服务端会处理。
-            8. repeat 的 items 里每个 key 必须来自 slide_id 指定的那一页（同页的 shape_id），不要混用别的页的 shape_id。
-            输出示例：
-            {"plan":[
-              {"kind":"fill","slide_id":"s1","fields":{"s1_sh1":"2026 产品发布","s1_sh2":"让服务快人一步"}},
-              {"kind":"repeat","slide_id":"s2","items":[{"s2_sh1":"要点一","s2_sh2":"内容"},{"s2_sh1":"要点二","s2_sh2":"内容"}]},
-              {"kind":"table","shape_id":"s3_sh4","rows":[["指标","前","后"],["响应","30s","3s"]]}
-            ]}
-        - role: user
-          text: |
-            模板骨架（skeleton）：
-            {{#code_extract.skeleton#}}
-
-            内容大纲：
-            {{#llm_a.text#}}
-
-            请只输出 plan 的 JSON。
-      id: llm_b
+        type: code
+        title: 合并大纲与骨架
+        code_language: python3
+        variables:
+        - {variable: outline_text, value_selector: [llm_a, text]}
+        - {variable: skeleton, value_selector: [code_extract, skeleton]}
+        code: |
+          def main(outline_text: str, skeleton: str) -> dict:
+              import json, re
+              outline = []
+              m = re.search(r"\{.*\}", outline_text or "", re.S)
+              if m:
+                  try:
+                      outline = json.loads(m.group(0)).get("outline", [])
+                  except Exception:
+                      outline = []
+              slots_by_slide = {}
+              try:
+                  for s in json.loads(skeleton).get("slides", []):
+                      slots_by_slide[s["slide_id"]] = [
+                          sl for sl in s.get("slots", []) if sl.get("editable")]
+              except Exception:
+                  pass
+              tasks = []
+              for it in outline:
+                  sid = it.get("use_slide_id")
+                  if sid not in slots_by_slide:
+                      continue
+                  tasks.append({
+                      "slide_id": sid,
+                      "role": it.get("role", ""),
+                      "brief": it.get("brief", ""),
+                      "slots": slots_by_slide[sid],
+                  })
+              return {"tasks": json.dumps(tasks, ensure_ascii=False),
+                      "count": len(tasks)}
+        outputs:
+          tasks: {type: string}
+          count: {type: number}
+      id: code_join
       position: {x: 1120, y: 282}
       positionAbsolute: {x: 1120, y: 282}
       selected: false
@@ -282,29 +284,120 @@ workflow:
       width: 244
       height: 98
     - data:
+        desc: 逐页调用 LLM 填充文案
+        is_parallel: false
+        iterator_selector:
+        - code_join
+        - tasks
+        output_selector:
+        - llm_page_fill
+        - text
+        output_type: array[string]
+        selected: false
+        start_node_id: llm_page_fill
+        title: 逐页填充
+        type: iteration
+      id: iteration
+      position: {x: 1380, y: 182}
+      positionAbsolute: {x: 1380, y: 182}
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      height: 198
+      data:
+        nodes:
+        - data:
+            type: llm
+            title: 页面填充LLM
+            model:
+              completion_params:
+                temperature: 0.2
+                thinking: false
+              mode: chat
+              name: qwen3.6-plus
+              provider: wxj/bifrost/bifrost
+            context: {enabled: false, variable_selector: []}
+            vision: {enabled: false}
+            prompt_template:
+            - role: system
+              text: |
+                你是PPT文案填充器。把给定页面的每个文本槽填上最终文字。
+                只输出 JSON：{"slide_id":"<本页slide_id>","fields":{"<shape_id>":"文本",...}}。
+                不要解释、不要代码块包裹。
+                规则：
+                1. fields 的 key 只能用本页 slots 里给的 shape_id，不得编造、不得用别页的。
+                2. 每个可编辑槽都要给出文本；页码/日期/装饰性固定文字保持其 current_text 原值。
+                3. 内容依据 brief，贴合该页 role（封面写标题副标题、目录写条目、正文写要点）。
+            - role: user
+              text: |
+                本页 slide_id：{{#iteration.item.slide_id#}}
+                本页角色 role：{{#iteration.item.role#}}
+                本页内容要点 brief：{{#iteration.item.brief#}}
+                本页文本槽 slots（含 shape_id 与 current_text）：
+                {{#iteration.item.slots#}}
+
+                请只输出该页的 JSON。
+          id: llm_page_fill
+          position: {x: 50, y: 50}
+          positionAbsolute: {x: 1430, y: 232}
+          selected: false
+          sourcePosition: right
+          targetPosition: left
+          type: custom
+          width: 244
+          height: 98
+        edges: []
+    - data:
         type: code
-        title: 提取plan
+        title: 组装Plan
         code_language: python3
         variables:
-        - {variable: llm_text, value_selector: [llm_b, text]}
+        - {variable: iter_outputs, value_selector: [iteration, output]}
+        - {variable: skeleton, value_selector: [code_extract, skeleton]}
         code: |
-          def main(llm_text: str) -> dict:
+          def main(iter_outputs: list, skeleton: str) -> dict:
               import json, re
-              plan = []
-              m = re.search(r"\{.*\}", llm_text or "", re.S)
-              if m:
+              page_outputs = []
+              for t in iter_outputs or []:
+                  m = re.search(r"\{.*\}", t or "", re.S)
+                  if not m:
+                      continue
                   try:
-                      plan = json.loads(m.group(0)).get("plan", [])
+                      o = json.loads(m.group(0))
                   except Exception:
-                      plan = []
+                      continue
+                  if o.get("slide_id") and isinstance(o.get("fields"), dict):
+                      page_outputs.append({"slide_id": o["slide_id"],
+                                           "fields": o["fields"]})
+              sk = {}
+              try:
+                  sk = json.loads(skeleton)
+              except Exception:
+                  sk = {}
+              # 内联 assemble_plan（与 app/assemble.py 等价）
+              by_slide = {}
+              for o in page_outputs:
+                  by_slide.setdefault(o["slide_id"], []).append(o["fields"])
+              plan = []
+              for sl in sk.get("slides", []):
+                  sid = sl.get("slide_id")
+                  occs = by_slide.get(sid, [])
+                  if not occs:
+                      plan.append({"kind": "drop", "slide_id": sid})
+                  elif len(occs) == 1:
+                      plan.append({"kind": "fill", "slide_id": sid, "fields": occs[0]})
+                  else:
+                      plan.append({"kind": "repeat", "slide_id": sid, "items": occs})
               return {"plan_json": json.dumps(plan, ensure_ascii=False),
                       "valid": 1 if plan else 0}
         outputs:
           plan_json: {type: string}
           valid: {type: number}
-      id: code_plan
-      position: {x: 1380, y: 282}
-      positionAbsolute: {x: 1380, y: 282}
+      id: code_assemble
+      position: {x: 1640, y: 282}
+      positionAbsolute: {x: 1640, y: 282}
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -321,11 +414,11 @@ workflow:
         params: ''
         body:
           type: json
-          data: '{"doc_id": "{{#code_extract.doc_id#}}", "plan": {{#code_plan.plan_json#}}}'
+          data: '{"doc_id": "{{#code_extract.doc_id#}}", "plan": {{#code_assemble.plan_json#}}}'
         timeout: {max_connect_timeout: 0, max_read_timeout: 0, max_write_timeout: 0}
       id: http_apply_plan
-      position: {x: 1640, y: 282}
-      positionAbsolute: {x: 1640, y: 282}
+      position: {x: 1900, y: 282}
+      positionAbsolute: {x: 1900, y: 282}
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -345,10 +438,10 @@ workflow:
       height: 98
       id: end
       position:
-        x: 1900
+        x: 2160
         y: 282
       positionAbsolute:
-        x: 1900
+        x: 2160
         y: 282
       selected: false
       sourcePosition: right
