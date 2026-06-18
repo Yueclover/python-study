@@ -258,10 +258,22 @@ workflow:
                           sl for sl in s.get("slots", []) if sl.get("editable")]
               except Exception:
                   pass
+              # kept_ids: all outline-referenced slide_ids that exist in skeleton
+              # (regardless of whether they have editable slots)
+              seen_kept = set()
+              kept_ids = []
+              for it in outline:
+                  sid = it.get("use_slide_id")
+                  if sid in slots_by_slide and sid not in seen_kept:
+                      seen_kept.add(sid)
+                      kept_ids.append(sid)
               tasks = []
               for it in outline:
                   sid = it.get("use_slide_id")
                   if sid not in slots_by_slide:
+                      continue
+                  # skip LLM call for slides with no editable slots, but keep in kept_ids
+                  if not slots_by_slide[sid]:
                       continue
                   tasks.append({
                       "slide_id": sid,
@@ -270,10 +282,12 @@ workflow:
                       "slots": slots_by_slide[sid],
                   })
               return {"tasks": json.dumps(tasks, ensure_ascii=False),
-                      "count": len(tasks)}
+                      "count": len(tasks),
+                      "kept_ids": json.dumps(kept_ids, ensure_ascii=False)}
         outputs:
           tasks: {type: string}
           count: {type: number}
+          kept_ids: {type: string}
       id: code_join
       position: {x: 1120, y: 282}
       positionAbsolute: {x: 1120, y: 282}
@@ -355,8 +369,9 @@ workflow:
         variables:
         - {variable: iter_outputs, value_selector: [iteration, output]}
         - {variable: skeleton, value_selector: [code_extract, skeleton]}
+        - {variable: kept_ids, value_selector: [code_join, kept_ids]}
         code: |
-          def main(iter_outputs: list, skeleton: str) -> dict:
+          def main(iter_outputs: list, skeleton: str, kept_ids: str) -> dict:
               import json, re
               page_outputs = []
               for t in iter_outputs or []:
@@ -375,16 +390,29 @@ workflow:
                   sk = json.loads(skeleton)
               except Exception:
                   sk = {}
-              # 内联 assemble_plan（与 app/assemble.py 等价）
+              kept = set()
+              try:
+                  kept = set(json.loads(kept_ids or "[]"))
+              except Exception:
+                  kept = set()
+              # 内联 assemble_plan（与 app/assemble.py 等价，含 kept_ids 逻辑）
+              # 只统计 fields 非空的输出（空 fields 视为 no-op）
               by_slide = {}
               for o in page_outputs:
-                  by_slide.setdefault(o["slide_id"], []).append(o.get("fields") or {})
+                  fields = o.get("fields") or {}
+                  if not fields:
+                      continue
+                  by_slide.setdefault(o["slide_id"], []).append(fields)
               plan = []
               for sl in sk.get("slides", []):
                   sid = sl.get("slide_id")
                   occs = by_slide.get(sid, [])
                   if not occs:
-                      plan.append({"kind": "drop", "slide_id": sid})
+                      if sid in kept:
+                          # 大纲引用但无可填字段 → 原样保留，不发出任何 op
+                          pass
+                      else:
+                          plan.append({"kind": "drop", "slide_id": sid})
                   elif len(occs) == 1:
                       plan.append({"kind": "fill", "slide_id": sid, "fields": occs[0]})
                   else:

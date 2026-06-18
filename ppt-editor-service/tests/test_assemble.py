@@ -62,3 +62,27 @@ def test_repeat_fills_original_not_just_copies():
     # all three texts present across original + copies
     texts = {o["text"] for o in ops if o["op"] == "set_text"}
     assert texts == {"A", "B", "C"}
+
+
+def test_referenced_page_without_fill_is_kept_not_dropped():
+    sk = {"slides": [{"slide_id": "s1"}, {"slide_id": "s2"}]}
+    out = [{"slide_id": "s1", "fields": {"s1_sh1": "A"}}]
+    plan = assemble_plan(out, sk, kept_ids=["s1", "s2"])
+    assert {"kind": "fill", "slide_id": "s1", "fields": {"s1_sh1": "A"}} in plan
+    # s2 referenced but no fill -> kept as-is, neither fill nor drop
+    assert all(p["slide_id"] != "s2" for p in plan)
+
+
+def test_unreferenced_dropped_even_with_kept_ids():
+    sk = {"slides": [{"slide_id": "s1"}, {"slide_id": "s2"}, {"slide_id": "s3"}]}
+    out = [{"slide_id": "s1", "fields": {"s1_sh1": "A"}}]
+    plan = assemble_plan(out, sk, kept_ids=["s1", "s2"])
+    assert {"kind": "drop", "slide_id": "s3"} in plan          # not referenced
+    assert all(p["slide_id"] != "s2" for p in plan)            # referenced, kept
+
+
+def test_empty_fields_output_is_noop_kept_if_referenced():
+    sk = {"slides": [{"slide_id": "s1"}]}
+    out = [{"slide_id": "s1", "fields": {}}]
+    plan = assemble_plan(out, sk, kept_ids=["s1"])
+    assert plan == []   # empty fields -> no fill; referenced -> not dropped
