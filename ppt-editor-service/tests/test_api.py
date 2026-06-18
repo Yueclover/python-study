@@ -44,7 +44,25 @@ def test_parse_rejects_garbage(tmp_path):
 
 
 def test_apply_unknown_doc(tmp_path):
+    """Well-formed but non-existent doc_id hits the real handler guard."""
     _setup_storage(tmp_path)
     client = TestClient(app)
-    resp = client.post("/apply", json={"doc_id": "ghost", "ops": []})
+    resp = client.post("/apply", json={"doc_id": "deadbeef", "ops": []})
+    assert resp.status_code == 404
+    assert resp.json()["detail"] == "doc_id 不存在"
+
+
+def test_apply_malformed_doc_id(tmp_path):
+    """Malformed doc_id (not 8 hex chars) is rejected 404 before any filesystem access."""
+    _setup_storage(tmp_path)
+    client = TestClient(app)
+    resp = client.post("/apply", json={"doc_id": "../../etc", "ops": []})
+    assert resp.status_code == 404
+
+
+def test_files_malformed_doc_id(tmp_path):
+    """Malformed doc_id in /files route is rejected 404 explicitly."""
+    _setup_storage(tmp_path)
+    client = TestClient(app)
+    resp = client.get("/files/../../etc-out.pptx")
     assert resp.status_code == 404

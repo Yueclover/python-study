@@ -4,7 +4,7 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import FileResponse
 from pptx import Presentation
 
-from .storage import Storage
+from .storage import Storage, valid_doc_id
 from .parser import parse_presentation
 from .applier import apply_ops
 from .models import ApplyRequest
@@ -33,7 +33,7 @@ async def parse_endpoint(file: UploadFile = File(...)):
 
 @app.post("/apply")
 def apply_endpoint(req: ApplyRequest):
-    if not storage.exists(req.doc_id):
+    if not valid_doc_id(req.doc_id) or not storage.exists(req.doc_id):
         raise HTTPException(status_code=404, detail="doc_id 不存在")
     prs = Presentation(storage.source_path(req.doc_id))
     applied, rejected = apply_ops(prs, req.ops)
@@ -50,6 +50,8 @@ def apply_endpoint(req: ApplyRequest):
 @app.get("/files/{name}")
 def download(name: str):
     doc_id = name.split("-out")[0]
+    if not valid_doc_id(doc_id):
+        raise HTTPException(status_code=404, detail="文件不存在")
     path = storage.output_path(doc_id)
     if not (os.path.basename(path) == name and os.path.isfile(path)):
         raise HTTPException(status_code=404, detail="文件不存在")

@@ -1,5 +1,11 @@
 import os
+import re
 import uuid
+
+
+def valid_doc_id(doc_id: str) -> bool:
+    """Return True iff doc_id matches the generated format: exactly 8 lowercase hex chars."""
+    return re.fullmatch(r"[0-9a-f]{8}", doc_id) is not None
 
 
 class Storage:
