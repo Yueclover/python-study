@@ -388,7 +388,9 @@ workflow:
                   elif len(occs) == 1:
                       plan.append({"kind": "fill", "slide_id": sid, "fields": occs[0]})
                   else:
-                      plan.append({"kind": "repeat", "slide_id": sid, "items": occs})
+                      # N>1: reuse original for occs[0], duplicate only N-1 extras
+                      plan.append({"kind": "repeat", "slide_id": sid, "items": occs[1:]})
+                      plan.append({"kind": "fill", "slide_id": sid, "fields": occs[0]})
               return {"plan_json": json.dumps(plan, ensure_ascii=False),
                       "valid": 1 if plan else 0}
         outputs:

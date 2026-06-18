@@ -13,5 +13,11 @@ def assemble_plan(page_outputs, skeleton):
         elif len(occs) == 1:
             plan.append({"kind": "fill", "slide_id": sid, "fields": occs[0]})
         else:
-            plan.append({"kind": "repeat", "slide_id": sid, "items": occs})
+            # N>1 occurrences: reuse the ORIGINAL slide for occs[0] and only
+            # duplicate the remaining N-1 copies (occs[1:]).  The repeat item
+            # must come BEFORE the fill so dup_slide clones the clean template,
+            # not the already-filled original.  This prevents a stale unfilled
+            # template page from surviving in the output deck.
+            plan.append({"kind": "repeat", "slide_id": sid, "items": occs[1:]})
+            plan.append({"kind": "fill", "slide_id": sid, "fields": occs[0]})
     return plan
