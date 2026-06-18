@@ -157,14 +157,19 @@ workflow:
           config: null
         headers: ''
         params: ''
-        # ↓↓↓ 传文件最易因版本差异报错。含义：form-data 里一个 key=file 的文件字段，
-        #     值取开始节点的 file 变量。若导入后此处报错，删掉再在 UI 里重配即可。
+        # form-data：一个 key=file 的文件字段。
+        # 注意：type=file 的项必须用 file 选择器 [start, file]（节点id+变量名），
+        # 不能用 value:'{{#start.file#}}'（模板字符串只对文本变量生效，文件传不过去）。
         body:
           type: form-data
           data:
-          - key: file
+          - id: parse-file-item
+            key: file
             type: file
-            value: '{{#start.file#}}'
+            value: ''
+            file:
+            - start
+            - file
         timeout:
           max_connect_timeout: 0
           max_read_timeout: 0
