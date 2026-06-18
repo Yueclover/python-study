@@ -1,0 +1,371 @@
+app:
+  description: 上传 PPT 模板 → LLM 生成编辑指令 → 回写新 pptx 下载
+  icon: 📊
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: workflow
+  name: PPT模板LLM编辑
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: package
+  value:
+    plugin_unique_identifier: wxj/bifrost:0.1.5@b3a12d4350183a23b02da9cd95280287fa3459e6989d74b4330dbb11b0ef32cc
+    version: null
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables: []
+  environment_variables:
+  - description: ''
+    id: env-svc-0001
+    name: SVC
+    selector:
+    - env
+    - SVC
+    value: http://172.16.40.114:8000
+    value_type: string
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        sourceType: start
+        targetType: http-request
+      id: e-start-parse
+      source: start
+      sourceHandle: source
+      target: http_parse
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: http-request
+        targetType: llm
+      id: e-parse-llm
+      source: http_parse
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: code
+      id: e-llm-code
+      source: llm
+      sourceHandle: source
+      target: code
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: http-request
+      id: e-code-apply
+      source: code
+      sourceHandle: source
+      target: http_apply
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: http-request
+        targetType: end
+      id: e-apply-end
+      source: http_apply
+      sourceHandle: source
+      target: end
+      targetHandle: target
+      type: custom
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - allowed_file_extensions:
+          - .pptx
+          allowed_file_types:
+          - document
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          label: PPT模板
+          options: []
+          required: true
+          type: file
+          variable: file
+        - label: 用户需求
+          max_length: 2000
+          options: []
+          required: true
+          type: paragraph
+          variable: user_brief
+      height: 116
+      id: start
+      position:
+        x: 80
+        y: 282
+      positionAbsolute:
+        x: 80
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - file:
+            - start
+            - file
+            id: parse-file-item
+            key: file
+            type: file
+            value: ''
+          type: form-data
+        desc: POST /parse，上传 pptx 取结构化 JSON
+        headers: ''
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: 解析PPT
+        type: http-request
+        url: '{{#env.SVC#}}/parse'
+      height: 169
+      id: http_parse
+      position:
+        x: 360
+        y: 282
+      positionAbsolute:
+        x: 360
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 读 slides + 需求 → 输出 ops JSON
+        model:
+          completion_params:
+            temperature: 0.2
+            thinking: false
+          mode: chat
+          name: qwen3.6-plus
+          provider: wxj/bifrost/bifrost
+        prompt_template:
+        - id: 15869336-da51-48cb-b2c8-43d548009e6c
+          role: system
+          text: "你是PPT编辑指令生成器。你只能输出JSON，包含一个 ops 数组，不要输出任何解释文字、不要用代码块包裹。\n可用指令仅5种：set_text\
+            \ / set_cell / set_table_size / dup_slide / del_slide。\n铁律：\n1. shape_id/slide_id\
+            \ 必须来自输入JSON，严禁编造。\n2. 复制页并填内容时，必须先 dup_slide，再用 as 里的临时页ID引用副本里的形状，格式为\
+            \ 临时页ID::形状短ID（如 d1::sh2）。\n3. ops 按数组顺序执行，dup_slide 必须排在引用其副本的指令之前。\n\
+            4. 不改样式、不改坐标、不动图片。只允许改文字、表格数据、增删整页。\n5. 识别语义靠 ph_type / name / 位置(pos)\
+            \ / 字号(style.size)。ph_type=title 是标题，多个并列同样式的 body 框所在页通常是可重复的要点页。\n6.\
+            \ 复制含图片/图表（type=picture/chart）的页会丢失这些媒体，优先复制纯文本页；必须复制含媒体的页时需知悉媒体会丢失。\n\
+            \n输出格式示例：\n{\"ops\":[\n  {\"op\":\"set_text\",\"shape_id\":\"s1_sh1\"\
+            ,\"text\":\"2026 产品发布会\"},\n  {\"op\":\"dup_slide\",\"slide_id\":\"s2\"\
+            ,\"count\":3,\"as\":[\"d1\",\"d2\",\"d3\"]},\n  {\"op\":\"set_text\",\"\
+            shape_id\":\"d1::sh1\",\"text\":\"要点一\"},\n  {\"op\":\"set_text\",\"shape_id\"\
+            :\"d2::sh1\",\"text\":\"要点二\"},\n  {\"op\":\"set_text\",\"shape_id\":\"\
+            d3::sh1\",\"text\":\"要点三\"},\n  {\"op\":\"del_slide\",\"slide_id\":\"\
+            s3\"}\n]}\n"
+        - id: a31c1e14-a4e1-43fd-ba3f-3c7f6f0d5b16
+          role: user
+          text: '模板结构（JSON）：
+
+            {{#http_parse.body#}}
+
+
+            用户需求：
+
+            {{#start.user_brief#}}
+
+
+            请只输出 ops 的 JSON。
+
+            '
+        selected: false
+        title: 生成编辑指令
+        type: llm
+        vision:
+          enabled: false
+      height: 98
+      id: llm
+      position:
+        x: 640
+        y: 282
+      positionAbsolute:
+        x: 640
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "def main(parse_body: str, llm_text: str) -> dict:\n    import json,\
+          \ re\n    # 1) 从 /parse 响应里取 doc_id\n    doc_id = \"\"\n    try:\n     \
+          \   doc_id = json.loads(parse_body).get(\"doc_id\", \"\")\n    except Exception:\n\
+          \        doc_id = \"\"\n    # 2) 从 LLM 输出里抠出第一个 JSON 对象，取 ops\n    ops =\
+          \ []\n    valid = 0\n    m = re.search(r\"\\{.*\\}\", llm_text or \"\",\
+          \ re.S)\n    if m:\n        try:\n            ops = json.loads(m.group(0)).get(\"\
+          ops\", [])\n            valid = 1 if doc_id else 0\n        except Exception:\n\
+          \            valid = 0\n    return {\n        \"valid\": valid,\n      \
+          \  \"doc_id\": doc_id,\n        \"ops_json\": json.dumps(ops, ensure_ascii=False),\n\
+          \    }\n"
+        code_language: python3
+        desc: 从 /parse 响应取 doc_id，从 LLM 输出取 ops
+        outputs:
+          doc_id:
+            type: string
+          ops_json:
+            type: string
+          valid:
+            type: number
+        selected: false
+        title: 校验提取
+        type: code
+        variables:
+        - value_selector:
+          - http_parse
+          - body
+          variable: parse_body
+        - value_selector:
+          - llm
+          - text
+          variable: llm_text
+      height: 98
+      id: code
+      position:
+        x: 920
+        y: 282
+      positionAbsolute:
+        x: 920
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - type: text
+            value: '{"doc_id": "{{#code.doc_id#}}", "ops": {{#code.ops_json#}}}'
+          type: json
+        desc: POST /apply，按指令回写并取 download_url
+        headers: Content-Type:application/json
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: 回写PPT
+        type: http-request
+        url: '{{#env.SVC#}}/apply'
+      height: 169
+      id: http_apply
+      position:
+        x: 1200
+        y: 282
+      positionAbsolute:
+        x: 1200
+        y: 282
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: 返回 /apply 的结果（含 download_url 与 rejected）
+        outputs:
+        - value_selector:
+          - http_apply
+          - body
+          variable: apply_result
+        selected: false
+        title: 结束
+        type: end
+      height: 98
+      id: end
+      position:
+        x: 1480
+        y: 282
+      positionAbsolute:
+        x: 1480
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 124.89999999999998
+      y: 158.70000000000005
+      zoom: 0.8
+  rag_pipeline_variables: []
