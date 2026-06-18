@@ -1,6 +1,6 @@
 from pptx import Presentation
 from app.parser import parse_presentation
-from app.skeleton import build_skeleton
+from app.skeleton import build_skeleton, _page_role
 
 
 def test_skeleton_cover_and_content(basic_pptx_path):
@@ -49,3 +49,56 @@ def test_skeleton_exposes_layout_name(basic_pptx_path):
     sk = build_skeleton(parsed)
     # python-pptx 默认模板：第一页版式名为 "Title Slide"
     assert sk["slides"][0]["layout_name"] == "Title Slide"
+
+
+def test_page_role_table_wins():
+    assert _page_role(["title", "table"], "Whatever", "", 1, 3) == "table"
+
+
+def test_page_role_layout_cover():
+    assert _page_role(["title"], "Title Slide", "", 1, 3) == "cover"
+    assert _page_role(["title"], "封面页", "", 1, 3) == "cover"
+
+
+def test_page_role_layout_toc():
+    assert _page_role(["title", "body"], "目录", "", 1, 3) == "toc"
+    assert _page_role(["title"], "Agenda", "", 1, 3) == "toc"
+
+
+def test_page_role_layout_section():
+    assert _page_role(["title"], "Section Header", "", 1, 3) == "section"
+    assert _page_role(["title"], "节标题", "", 1, 3) == "section"
+
+
+def test_page_role_layout_ending():
+    assert _page_role(["title"], "结束页", "", 2, 3) == "ending"
+
+
+def test_page_role_text_keyword_toc():
+    assert _page_role(["title", "body"], "Blank", "目录 第一部分 第二部分", 1, 3) == "toc"
+
+
+def test_page_role_text_keyword_ending():
+    assert _page_role(["other"], "Blank", "谢谢观看", 2, 3) == "ending"
+
+
+def test_page_role_text_keyword_section():
+    assert _page_role(["title"], "Blank", "第一章 总览", 1, 4) == "section"
+
+
+def test_page_role_index0_title_is_cover():
+    assert _page_role(["title"], "Blank", "某标题", 0, 3) == "cover"
+
+
+def test_page_role_last_sparse_is_ending():
+    assert _page_role(["other"], "Blank", "再见", 2, 3) == "ending"
+
+
+def test_page_role_composition_fallbacks():
+    assert _page_role(["title", "subtitle"], "Blank", "x", 1, 3) == "cover"
+    assert _page_role(["title", "body"], "Blank", "x", 1, 3) == "content"
+
+
+def test_page_role_generic_default():
+    assert _page_role(["other"], "Blank", "一些正文 内容很多 不止一个槽",
+                      1, 3) == "generic"
