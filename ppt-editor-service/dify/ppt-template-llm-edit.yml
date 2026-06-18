@@ -1,0 +1,332 @@
+# =============================================================================
+# Dify 工作流 DSL：PPT 模板 LLM 编辑
+# 导入方式：Dify 控制台 → 创建应用 → 导入 DSL 文件 → 选本文件
+#
+# 导入后【必须】改 3 处：
+#   1. environment_variables.SVC  → 改成你的 PPT 服务地址（POST /parse、/apply 所在）
+#   2. LLM 节点 model.provider / model.name → 改成你接入的模型（本文件用 openai/gpt-4o 占位）
+#   3. 「解析PPT」HTTP 节点的 body（传文件）→ 见该节点注释，不同 Dify 版本字段不同，
+#      若导入后报错，按你的 Dify UI 重新配一下 form-data 的 file 字段即可。
+#
+# 版本说明：本 DSL 按 Dify DSL version 0.1.5（约 0.6~0.15 / 1.x）编写。
+#   若你的 Dify 版本不同，导入时可能提示版本不符——一般可继续导入，
+#   个别节点字段需在 UI 里微调。
+# =============================================================================
+app:
+  description: 上传 PPT 模板 → LLM 生成编辑指令 → 回写新 pptx 下载
+  icon: "\U0001F4CA"
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: PPT模板LLM编辑
+kind: app
+version: 0.1.5
+workflow:
+  environment_variables:
+  - id: env-svc-0001
+    name: SVC
+    value: http://YOUR_HOST:8000
+    value_type: string
+  features:
+    file_upload:
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+    opening_statement: ''
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - id: e-start-parse
+      source: start
+      target: http_parse
+      sourceHandle: source
+      targetHandle: target
+      type: custom
+      data:
+        sourceType: start
+        targetType: http-request
+        isInIteration: false
+    - id: e-parse-llm
+      source: http_parse
+      target: llm
+      sourceHandle: source
+      targetHandle: target
+      type: custom
+      data:
+        sourceType: http-request
+        targetType: llm
+        isInIteration: false
+    - id: e-llm-code
+      source: llm
+      target: code
+      sourceHandle: source
+      targetHandle: target
+      type: custom
+      data:
+        sourceType: llm
+        targetType: code
+        isInIteration: false
+    - id: e-code-apply
+      source: code
+      target: http_apply
+      sourceHandle: source
+      targetHandle: target
+      type: custom
+      data:
+        sourceType: code
+        targetType: http-request
+        isInIteration: false
+    - id: e-apply-end
+      source: http_apply
+      target: end
+      sourceHandle: source
+      targetHandle: target
+      type: custom
+      data:
+        sourceType: http-request
+        targetType: end
+        isInIteration: false
+    nodes:
+    # ---------------------------------------------------------------- 开始
+    - id: start
+      type: custom
+      position: {x: 80, y: 282}
+      positionAbsolute: {x: 80, y: 282}
+      width: 244
+      height: 116
+      sourcePosition: right
+      targetPosition: left
+      selected: false
+      data:
+        type: start
+        title: 开始
+        desc: ''
+        selected: false
+        variables:
+        - variable: file
+          label: PPT模板
+          type: file
+          required: true
+          allowed_file_types:
+          - document
+          allowed_file_extensions:
+          - .pptx
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          options: []
+        - variable: user_brief
+          label: 用户需求
+          type: paragraph
+          required: true
+          max_length: 2000
+          options: []
+    # ---------------------------------------------------------------- 解析PPT (HTTP)
+    - id: http_parse
+      type: custom
+      position: {x: 360, y: 282}
+      positionAbsolute: {x: 360, y: 282}
+      width: 244
+      height: 140
+      sourcePosition: right
+      targetPosition: left
+      selected: false
+      data:
+        type: http-request
+        title: 解析PPT
+        desc: POST /parse，上传 pptx 取结构化 JSON
+        selected: false
+        method: post
+        url: '{{#env.SVC#}}/parse'
+        authorization:
+          type: no-auth
+          config: null
+        headers: ''
+        params: ''
+        # ↓↓↓ 传文件最易因版本差异报错。含义：form-data 里一个 key=file 的文件字段，
+        #     值取开始节点的 file 变量。若导入后此处报错，删掉再在 UI 里重配即可。
+        body:
+          type: form-data
+          data:
+          - key: file
+            type: file
+            value: '{{#start.file#}}'
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+    # ---------------------------------------------------------------- LLM 生成指令
+    - id: llm
+      type: custom
+      position: {x: 640, y: 282}
+      positionAbsolute: {x: 640, y: 282}
+      width: 244
+      height: 98
+      sourcePosition: right
+      targetPosition: left
+      selected: false
+      data:
+        type: llm
+        title: 生成编辑指令
+        desc: 读 slides + 需求 → 输出 ops JSON
+        selected: false
+        model:
+          provider: openai          # ← 改成你的模型供应商
+          name: gpt-4o              # ← 改成你的模型
+          mode: chat
+          completion_params:
+            temperature: 0.2
+        context:
+          enabled: false
+          variable_selector: []
+        vision:
+          enabled: false
+        prompt_template:
+        - role: system
+          text: |
+            你是PPT编辑指令生成器。你只能输出JSON，包含一个 ops 数组，不要输出任何解释文字、不要用代码块包裹。
+            可用指令仅5种：set_text / set_cell / set_table_size / dup_slide / del_slide。
+            铁律：
+            1. shape_id/slide_id 必须来自输入JSON，严禁编造。
+            2. 复制页并填内容时，必须先 dup_slide，再用 as 里的临时页ID引用副本里的形状，格式为 临时页ID::形状短ID（如 d1::sh2）。
+            3. ops 按数组顺序执行，dup_slide 必须排在引用其副本的指令之前。
+            4. 不改样式、不改坐标、不动图片。只允许改文字、表格数据、增删整页。
+            5. 识别语义靠 ph_type / name / 位置(pos) / 字号(style.size)。ph_type=title 是标题，多个并列同样式的 body 框所在页通常是可重复的要点页。
+            6. 复制含图片/图表（type=picture/chart）的页会丢失这些媒体，优先复制纯文本页；必须复制含媒体的页时需知悉媒体会丢失。
+
+            输出格式示例：
+            {"ops":[
+              {"op":"set_text","shape_id":"s1_sh1","text":"2026 产品发布会"},
+              {"op":"dup_slide","slide_id":"s2","count":3,"as":["d1","d2","d3"]},
+              {"op":"set_text","shape_id":"d1::sh1","text":"要点一"},
+              {"op":"set_text","shape_id":"d2::sh1","text":"要点二"},
+              {"op":"set_text","shape_id":"d3::sh1","text":"要点三"},
+              {"op":"del_slide","slide_id":"s3"}
+            ]}
+        - role: user
+          text: |
+            模板结构（JSON）：
+            {{#http_parse.body#}}
+
+            用户需求：
+            {{#start.user_brief#}}
+
+            请只输出 ops 的 JSON。
+    # ---------------------------------------------------------------- 校验/提取 (Code)
+    - id: code
+      type: custom
+      position: {x: 920, y: 282}
+      positionAbsolute: {x: 920, y: 282}
+      width: 244
+      height: 98
+      sourcePosition: right
+      targetPosition: left
+      selected: false
+      data:
+        type: code
+        title: 校验提取
+        desc: 从 /parse 响应取 doc_id，从 LLM 输出取 ops
+        selected: false
+        code_language: python3
+        variables:
+        - variable: parse_body
+          value_selector: [http_parse, body]
+        - variable: llm_text
+          value_selector: [llm, text]
+        code: |
+          def main(parse_body: str, llm_text: str) -> dict:
+              import json, re
+              # 1) 从 /parse 响应里取 doc_id
+              doc_id = ""
+              try:
+                  doc_id = json.loads(parse_body).get("doc_id", "")
+              except Exception:
+                  doc_id = ""
+              # 2) 从 LLM 输出里抠出第一个 JSON 对象，取 ops
+              ops = []
+              valid = 0
+              m = re.search(r"\{.*\}", llm_text or "", re.S)
+              if m:
+                  try:
+                      ops = json.loads(m.group(0)).get("ops", [])
+                      valid = 1 if doc_id else 0
+                  except Exception:
+                      valid = 0
+              return {
+                  "valid": valid,
+                  "doc_id": doc_id,
+                  "ops_json": json.dumps(ops, ensure_ascii=False),
+              }
+        outputs:
+          valid:
+            type: number
+          doc_id:
+            type: string
+          ops_json:
+            type: string
+    # ---------------------------------------------------------------- 回写 (HTTP)
+    - id: http_apply
+      type: custom
+      position: {x: 1200, y: 282}
+      positionAbsolute: {x: 1200, y: 282}
+      width: 244
+      height: 140
+      sourcePosition: right
+      targetPosition: left
+      selected: false
+      data:
+        type: http-request
+        title: 回写PPT
+        desc: POST /apply，按指令回写并取 download_url
+        selected: false
+        method: post
+        url: '{{#env.SVC#}}/apply'
+        authorization:
+          type: no-auth
+          config: null
+        headers: 'Content-Type:application/json'
+        params: ''
+        # ops_json 是 JSON 数组字符串，doc_id 是字符串；拼成 /apply 需要的 {doc_id, ops}
+        body:
+          type: json
+          data: '{"doc_id": "{{#code.doc_id#}}", "ops": {{#code.ops_json#}}}'
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+    # ---------------------------------------------------------------- 结束
+    - id: end
+      type: custom
+      position: {x: 1480, y: 282}
+      positionAbsolute: {x: 1480, y: 282}
+      width: 244
+      height: 98
+      sourcePosition: right
+      targetPosition: left
+      selected: false
+      data:
+        type: end
+        title: 结束
+        desc: 返回 /apply 的结果（含 download_url 与 rejected）
+        selected: false
+        outputs:
+        - variable: apply_result
+          value_selector: [http_apply, body]
+    viewport:
+      x: 0
+      y: 0
+      zoom: 0.8
