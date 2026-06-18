@@ -29,6 +29,11 @@ def expand_plan(plan, structure):
                         "count": len(items), "as": names})
             for name, fields in zip(names, items):
                 for sid, text in (fields or {}).items():
+                    parent = sid.rsplit("_", 1)[0] if "_" in sid else None
+                    if parent is not None and parent != slide_id:
+                        warnings.append(
+                            f"repeat slide {slide_id}: 跳过跨页字段 {sid}")
+                        continue
                     ops.append({"op": "set_text",
                                 "shape_id": f"{name}::{_short_id(sid)}",
                                 "text": text})

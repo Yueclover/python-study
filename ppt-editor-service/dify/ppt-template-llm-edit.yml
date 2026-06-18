@@ -256,6 +256,7 @@ workflow:
             5. drop: {"kind":"drop","slide_id":"<用不到的页>"}。
             6. fields/各item 的 key 必须是 skeleton 中真实存在的 shape_id，严禁编造。
             7. 不要生成临时ID、不要排 dup 顺序——服务端会处理。
+            8. repeat 的 items 里每个 key 必须来自 slide_id 指定的那一页（同页的 shape_id），不要混用别的页的 shape_id。
             输出示例：
             {"plan":[
               {"kind":"fill","slide_id":"s1","fields":{"s1_sh1":"2026 产品发布","s1_sh2":"让服务快人一步"}},

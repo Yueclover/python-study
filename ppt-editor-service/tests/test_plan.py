@@ -61,3 +61,16 @@ def test_unknown_kind_warns():
     ops, warn = expand_plan([{"kind": "frobnicate"}], {})
     assert ops == []
     assert any("frobnicate" in w for w in warn)
+
+
+def test_repeat_cross_page_field_skipped_with_warning():
+    plan = [{"kind": "repeat", "slide_id": "s2",
+             "items": [{"s2_sh1": "ok", "s5_sh1": "wrong"}]}]
+    ops, warn = expand_plan(plan, {})
+    # same-page field must be emitted
+    assert {"op": "set_text", "shape_id": "s2__r1::sh1", "text": "ok"} in ops
+    # cross-page field must NOT appear in any op
+    assert not any("s5" in str(o) for o in ops)
+    assert not any(o.get("text") == "wrong" for o in ops)
+    # warning must mention the cross-page field
+    assert any("s5_sh1" in w for w in warn)
