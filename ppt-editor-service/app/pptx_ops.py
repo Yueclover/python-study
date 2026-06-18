@@ -62,3 +62,50 @@ def set_table_size(table_shape, rows, cols):
             grid.remove(grid.gridCol_lst[-1])
             for tr in tbl.tr_lst:
                 tr.remove(tr.tc_lst[-1])
+
+
+def slide_index(prs, slide):
+    target = slide.slide_id
+    for i, s in enumerate(prs.slides):
+        if s.slide_id == target:
+            return i
+    return -1
+
+
+def _move_slide(prs, from_index, to_index):
+    sldIdLst = prs.slides._sldIdLst
+    ids = list(sldIdLst)
+    el = ids[from_index]
+    sldIdLst.remove(el)
+    sldIdLst.insert(to_index, el)
+
+
+def _copy_slide(prs, source_slide):
+    new_slide = prs.slides.add_slide(source_slide.slide_layout)
+    # 移除 add_slide 自动生成的占位符
+    for shp in list(new_slide.shapes):
+        shp._element.getparent().remove(shp._element)
+    # 复制源页所有形状
+    for shp in source_slide.shapes:
+        new_slide.shapes._spTree.append(copy.deepcopy(shp._element))
+    return new_slide
+
+
+def duplicate_slide_after(prs, source_slide, count):
+    base_index = slide_index(prs, source_slide)
+    new_slides = []
+    for k in range(count):
+        ns = _copy_slide(prs, source_slide)  # 追加在末尾
+        from_idx = slide_index(prs, ns)
+        _move_slide(prs, from_idx, base_index + 1 + k)
+        new_slides.append(ns)
+    return new_slides
+
+
+def delete_slide(prs, slide):
+    idx = slide_index(prs, slide)
+    if idx < 0:
+        return False
+    sldIdLst = prs.slides._sldIdLst
+    sldIdLst.remove(list(sldIdLst)[idx])
+    return True
