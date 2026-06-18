@@ -29,10 +29,9 @@ def _slot(shape):
         "shape_id": shape["shape_id"],
         "role": _slot_role(shape),
         "type": shape["type"],
+        "current_text": shape.get("text") or "",
+        "editable": shape["type"] == "text",
     }
-    text = shape.get("text")
-    if text:
-        s["sample"] = text[:30]
     if shape["type"] == "table" and "table" in shape:
         s["rows"] = shape["table"]["rows"]
         s["cols"] = shape["table"]["cols"]
