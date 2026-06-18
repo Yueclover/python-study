@@ -297,16 +297,6 @@ workflow:
         start_node_id: llm_page_fill
         title: 逐页填充
         type: iteration
-      id: iteration
-      position: {x: 1380, y: 182}
-      positionAbsolute: {x: 1380, y: 182}
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 244
-      height: 198
-      data:
         nodes:
         - data:
             type: llm
@@ -349,6 +339,15 @@ workflow:
           width: 244
           height: 98
         edges: []
+      id: iteration
+      position: {x: 1380, y: 182}
+      positionAbsolute: {x: 1380, y: 182}
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+      height: 198
     - data:
         type: code
         title: 组装Plan
@@ -379,7 +378,7 @@ workflow:
               # 内联 assemble_plan（与 app/assemble.py 等价）
               by_slide = {}
               for o in page_outputs:
-                  by_slide.setdefault(o["slide_id"], []).append(o["fields"])
+                  by_slide.setdefault(o["slide_id"], []).append(o.get("fields") or {})
               plan = []
               for sl in sk.get("slides", []):
                   sid = sl.get("slide_id")
