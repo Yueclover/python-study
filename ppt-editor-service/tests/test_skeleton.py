@@ -42,3 +42,10 @@ def test_table_slot_not_editable(table_pptx_path):
     sk = build_skeleton(parsed)
     tslot = next(s for s in sk["slides"][0]["slots"] if s["role"] == "table")
     assert tslot["editable"] is False
+
+
+def test_skeleton_exposes_layout_name(basic_pptx_path):
+    parsed = parse_presentation(Presentation(basic_pptx_path))
+    sk = build_skeleton(parsed)
+    # python-pptx 默认模板：第一页版式名为 "Title Slide"
+    assert sk["slides"][0]["layout_name"] == "Title Slide"

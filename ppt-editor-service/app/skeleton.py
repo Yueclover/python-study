@@ -45,6 +45,7 @@ def build_skeleton(parsed):
         slides.append({
             "slide_id": sl["slide_id"],
             "role": _page_role([s["role"] for s in slots]),
+            "layout_name": sl["layout_name"],
             "slots": slots,
         })
     return {"slides": slides}
