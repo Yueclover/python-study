@@ -76,7 +76,10 @@ def apply_ops(prs, ops):
         try:
             _dispatch(prs, idx, op)
             applied += 1
-        except (OpError, KeyError) as e:
-            reason = str(e) if isinstance(e, OpError) else f"缺少参数 {e}"
-            rejected.append({"index": i, "op": op.get("op"), "reason": reason})
+        except OpError as e:
+            rejected.append({"index": i, "op": op.get("op"), "reason": str(e)})
+        except KeyError as e:
+            rejected.append({"index": i, "op": op.get("op"), "reason": f"缺少参数 {e}"})
+        except Exception as e:
+            rejected.append({"index": i, "op": op.get("op"), "reason": f"执行失败: {e}"})
     return applied, rejected
