@@ -22,13 +22,17 @@ def set_cell(table_shape, r, c, text):
     set_text_keep_style(cell.text_frame, text)
 
 
+def _clear_tc_text(tc):
+    """清空单个单元格的文本内容，保留结构。"""
+    for p in tc.txBody.p_lst:
+        for r in list(p.r_lst):
+            r.getparent().remove(r)
+
+
 def _clear_tr_text(tr):
     """清空行内所有单元格的文本内容，保留结构。"""
     for tc in tr.tc_lst:
-        # tc.txBody.p_lst 取段落列表（brief 中 tc.iter_paragraphs() 在此版本不存在）
-        for p in tc.txBody.p_lst:
-            for r in list(p.r_lst):
-                r.getparent().remove(r)
+        _clear_tc_text(tc)
 
 
 def set_table_size(table_shape, rows, cols):
@@ -51,6 +55,7 @@ def set_table_size(table_shape, rows, cols):
             grid.append(copy.deepcopy(grid.gridCol_lst[-1]))
             for tr in tbl.tr_lst:
                 new_tc = copy.deepcopy(tr.tc_lst[-1])
+                _clear_tc_text(new_tc)
                 tr.append(new_tc)
     elif cols < cur_cols:
         for _ in range(cur_cols - cols):
