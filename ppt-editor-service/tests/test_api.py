@@ -66,3 +66,16 @@ def test_files_malformed_doc_id(tmp_path):
     client = TestClient(app)
     resp = client.get("/files/../../etc-out.pptx")
     assert resp.status_code == 404
+
+
+def test_parse_returns_skeleton(tmp_path, basic_pptx_path):
+    import app.main as main_mod
+    from app.storage import Storage
+    main_mod.storage = Storage(str(tmp_path))
+    from fastapi.testclient import TestClient
+    client = TestClient(main_mod.app)
+    with open(basic_pptx_path, "rb") as f:
+        resp = client.post("/parse", files={"file": ("t.pptx", f, "application/octet-stream")})
+    assert resp.status_code == 200
+    sk = resp.json()["skeleton"]
+    assert sk["slides"][0]["role"] == "cover"

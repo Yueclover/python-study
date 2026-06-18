@@ -6,6 +6,7 @@ from pptx import Presentation
 
 from .storage import Storage, valid_doc_id
 from .parser import parse_presentation
+from .skeleton import build_skeleton
 from .applier import apply_ops
 from .models import ApplyRequest
 
@@ -28,6 +29,7 @@ async def parse_endpoint(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="无法解析 pptx 文件")
     result = parse_presentation(prs)
     result["doc_id"] = doc_id
+    result["skeleton"] = build_skeleton(result)
     return result
 
 
