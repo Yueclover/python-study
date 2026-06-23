@@ -90,6 +90,12 @@ def render_and_measure(html: str) -> list[dict]:
             pages = []
             for frame in page.frames:
                 try:
+                    # 抹掉宿主默认 body 边距/滚动条，避免把"页面没有内嵌 reset"
+                    # 误判成右侧/底部溢出（裸 section 产物常见）
+                    frame.add_style_tag(content=(
+                        "html,body{margin:0!important;padding:0!important;}"
+                        "html{overflow:hidden!important;}"
+                    ))
                     res = frame.evaluate(MEASURE_JS)
                 except Exception:
                     continue
