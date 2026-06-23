@@ -37,12 +37,12 @@ def analyze_pages(pages: list[dict], overflow_tol: float = OVERFLOW_TOL,
         of = max(right, bottom)
         if of > overflow_tol:
             label = "下" if bottom >= right else "右"
-            bad.append({"page": p["page"], "type": "overflow",
+            bad.append({"page": p.get("page"), "type": "overflow",
                         "detail": f"{label}溢出约{round(of)}px"})
         best = _max_overlap(p.get("leaves", []) or [])
         if best is not None and best[0] > overlap_ratio:
             ratio, ta, tb = best
-            bad.append({"page": p["page"], "type": "overlap",
+            bad.append({"page": p.get("page"), "type": "overlap",
                         "detail": f'文本重叠~{round(ratio * 100)}% ("{ta}" / "{tb}")'})
     return bad
 
