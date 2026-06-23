@@ -5,6 +5,7 @@
 ## 运行
 ```bash
 pip install -r requirements.txt
+playwright install chromium   # 首次需安装无头浏览器（约 +400MB）
 PPT_STORAGE=./storage uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
@@ -12,6 +13,7 @@ PPT_STORAGE=./storage uvicorn app.main:app --host 0.0.0.0 --port 8000
 - POST /parse  (multipart file) -> {doc_id, slide_size, slides}
 - POST /apply  ({doc_id, ops})  -> {download_url, applied, rejected}
 - GET  /files/{name}            -> pptx 附件
+- POST /validate  ({html}) -> {bad_pages:[{page,type,detail}]}  渲染校验溢出/重叠
 
 ## 指令集（v1）
 set_text / set_cell / set_table_size / dup_slide / del_slide

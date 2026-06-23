@@ -45,3 +45,54 @@ def analyze_pages(pages: list[dict], overflow_tol: float = OVERFLOW_TOL,
             bad.append({"page": p["page"], "type": "overlap",
                         "detail": f'文本重叠~{round(ratio * 100)}% ("{ta}" / "{tb}")'})
     return bad
+
+
+# ---------------------------------------------------------------------------
+# 浏览器渲染层（Playwright）
+# ---------------------------------------------------------------------------
+
+# 注入浏览器执行：逐 section 测量溢出量与文本叶子元素几何
+MEASURE_JS = r"""
+() => {
+  const secs = Array.from(document.querySelectorAll('section.slide'));
+  return secs.map((sec, i) => {
+    const sr = sec.getBoundingClientRect();
+    let page = i + 1;
+    const m = (sec.id || '').match(/slide-(\d+)/);
+    if (m) page = parseInt(m[1], 10);
+    let overRight = 0, overBottom = 0;
+    const leaves = [];
+    sec.querySelectorAll('*').forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.width <= 0 && r.height <= 0) return;
+      overRight = Math.max(overRight, r.right - sr.right);
+      overBottom = Math.max(overBottom, r.bottom - sr.bottom);
+      const txt = (el.textContent || '').trim();
+      if (el.children.length === 0 && txt.length > 0 && r.width > 0 && r.height > 0) {
+        leaves.push({x: r.left, y: r.top, w: r.width, h: r.height, text: txt.slice(0, 20)});
+      }
+    });
+    return {page: page, overflow_right: overRight, overflow_bottom: overBottom, leaves: leaves};
+  });
+}
+"""
+
+
+def render_and_measure(html: str) -> list[dict]:
+    from playwright.sync_api import sync_playwright
+    with sync_playwright() as p:
+        browser = p.chromium.launch(args=["--no-sandbox"])
+        try:
+            page = browser.new_page(viewport={"width": VIEWPORT[0], "height": VIEWPORT[1]})
+            page.set_content(html or "", wait_until="networkidle")
+            return page.evaluate(MEASURE_JS)
+        finally:
+            browser.close()
+
+
+def validate_html(html: str) -> dict:
+    try:
+        pages = render_and_measure(html)
+    except Exception as exc:  # fail-open：渲染异常不阻断出图
+        return {"bad_pages": [], "error": str(exc)}
+    return {"bad_pages": analyze_pages(pages)}

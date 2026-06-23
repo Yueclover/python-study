@@ -51,3 +51,65 @@ def test_adjacent_leaves_not_flagged():
         ],
     }]
     assert analyze_pages(pages) == []
+
+
+# ---------------------------------------------------------------------------
+# Task 2: 集成测试（无 Chromium 自动跳过）
+# ---------------------------------------------------------------------------
+import importlib.util
+import pytest
+from fastapi.testclient import TestClient
+from app.main import app
+
+_HAS_PW = importlib.util.find_spec("playwright") is not None
+client = TestClient(app)
+
+
+def _chromium_ok() -> bool:
+    if not _HAS_PW:
+        return False
+    try:
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as p:
+            p.chromium.launch().close()
+        return True
+    except Exception:
+        return False
+
+
+pytestmark_browser = pytest.mark.skipif(
+    not _chromium_ok(), reason="Playwright/Chromium 不可用")
+
+_OVERFLOW_HTML = """
+<section id="slide-1" class="slide" style="width:960px;height:540px;overflow:hidden;position:relative;">
+  <div style="position:absolute;top:900px;">超出页面底部的内容</div>
+</section>
+"""
+
+_CLEAN_HTML = """
+<section id="slide-1" class="slide" style="width:960px;height:540px;overflow:hidden;position:relative;">
+  <div style="position:absolute;top:20px;">正常内容</div>
+</section>
+"""
+
+
+@pytestmark_browser
+def test_validate_detects_overflow():
+    resp = client.post("/validate", json={"html": _OVERFLOW_HTML})
+    assert resp.status_code == 200
+    pages = resp.json()["bad_pages"]
+    assert any(p["page"] == 1 and p["type"] == "overflow" for p in pages)
+
+
+@pytestmark_browser
+def test_validate_clean_page():
+    resp = client.post("/validate", json={"html": _CLEAN_HTML})
+    assert resp.status_code == 200
+    assert resp.json()["bad_pages"] == []
+
+
+def test_validate_endpoint_failopen_on_garbage():
+    # 不依赖浏览器：空 html 渲染后无 section，应返回空坏页
+    resp = client.post("/validate", json={"html": ""})
+    assert resp.status_code == 200
+    assert "bad_pages" in resp.json()

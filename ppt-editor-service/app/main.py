@@ -10,6 +10,7 @@ from .skeleton import build_skeleton
 from .applier import apply_ops
 from .plan import expand_plan
 from .models import ApplyRequest, ApplyPlanRequest
+from .validate import validate_html
 
 app = FastAPI(title="PPT Editor Service")
 storage = Storage(os.environ.get("PPT_STORAGE", "./storage"))
@@ -67,6 +68,11 @@ def apply_plan_endpoint(req: ApplyPlanRequest):
     name = os.path.basename(out)
     return {"download_url": f"/files/{name}", "applied": applied,
             "rejected": rejected, "ops_count": len(ops), "warnings": warnings}
+
+
+@app.post("/validate")
+def validate_endpoint(req: dict):
+    return validate_html(req.get("html", ""))
 
 
 @app.get("/files/{name}")
