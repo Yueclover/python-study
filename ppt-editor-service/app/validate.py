@@ -85,7 +85,17 @@ def render_and_measure(html: str) -> list[dict]:
         try:
             page = browser.new_page(viewport={"width": VIEWPORT[0], "height": VIEWPORT[1]})
             page.set_content(html or "", wait_until="networkidle")
-            return page.evaluate(MEASURE_JS)
+            page.wait_for_timeout(300)  # 等 srcdoc iframe 及页内自适应脚本执行
+            # 部分产物把每页 section 包在 <iframe srcdoc> 里，需要逐 frame 测量后汇总
+            pages = []
+            for frame in page.frames:
+                try:
+                    res = frame.evaluate(MEASURE_JS)
+                except Exception:
+                    continue
+                if res:
+                    pages.extend(res)
+            return pages
         finally:
             browser.close()
 
