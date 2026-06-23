@@ -35,7 +35,11 @@ def test_overlapping_leaves_flagged():
         ],
     }]
     bad = analyze_pages(pages)
-    assert any(b["type"] == "overlap" and b["page"] == 5 for b in bad)
+    overlaps = [b for b in bad if b["type"] == "overlap" and b["page"] == 5]
+    assert overlaps, "应检出第5页文本重叠"
+    detail = overlaps[0]["detail"]
+    assert "%" in detail
+    assert "标题" in detail or "正文" in detail
 
 
 def test_adjacent_leaves_not_flagged():
