@@ -1,0 +1,213 @@
+app:
+  name: Frontend Slides 生成器
+  description: 聊天给出主题/大纲,流式输出零依赖单文件 HTML 幻灯片(自动选风格)。
+  mode: advanced-chat
+  icon: 🎬
+  icon_background: '#1a1a1a'
+  icon_type: emoji
+  use_icon_as_answer_icon: false
+kind: app
+version: 0.6.0
+dependencies: []
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      enabled: false
+    opening_statement: 给我主题或大纲,我直接生成一套可保存为 .html 的幻灯片源码。
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    nodes:
+    - id: start
+      type: custom
+      width: 242
+      height: 116
+      position:
+        x: 0
+        y: 100
+      positionAbsolute:
+        x: 0
+        y: 100
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      data:
+        type: start
+        title: 开始
+        desc: ''
+        selected: false
+        variables:
+        - variable: density
+          label: 密度
+          type: select
+          required: false
+          options:
+          - auto
+          - speaker-led
+          - reading-first
+          default: auto
+          max_length: 48
+        - variable: pages
+          label: 期望页数(选填)
+          type: number
+          required: false
+          options: []
+    - id: plan
+      type: custom
+      width: 242
+      height: 98
+      position:
+        x: 300
+        y: 100
+      positionAbsolute:
+        x: 300
+        y: 100
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      data:
+        type: llm
+        title: 策划
+        desc: ''
+        selected: false
+        context:
+          enabled: false
+          variable_selector: []
+        vision:
+          enabled: false
+        model:
+          provider: wxj/bifrost/bifrost
+          name: qwen3.6-plus
+          mode: chat
+          completion_params:
+            temperature: 0.2
+        prompt_template:
+        - role: system
+          text: "你是幻灯片策划师。根据用户需求,自动选定一种视觉风格,并规划逐页大纲。\n只输出一段 JSON,不要解释、不要用代码块包裹。\n\n## 可选风格预设(12 选 1,依据主题气质/受众/正式度自动挑最合适的一个)\n深色:\n- Bold Signal:Archivo Black+Space Grotesk;#1a1a1a 底/#FF5722 卡/#fff 字;深色渐变上的彩色卡+大号分区编号。\n- Electric Studio:Manrope;#0a0a0a/#fff/#4361ee;双栏垂直分割+强调条。\n- Creative Voltage:Syne+Space Mono;#0066ff/#d4ff00/#1a1a2e;电光蓝+霓虹黄对比+半调纹理。\n- Dark Botanical:Cormorant+IBM Plex Sans;#0f0f0f/#e8e4df/暖金粉;深色居中+柔和抽象渐变形。\n浅色:\n- Notebook Tabs:Bodoni Moda+DM Sans;#2d2d2d/#f8f6f1/多彩标签;暗底奶油卡+右缘彩色标签。\n- Pastel Geometry:Plus Jakarta Sans;#c8d9e6/#faf9f7/粉彩 pill;粉彩底白卡+高低不一竖条。\n- Split Pastel:Outfit;#f5e6dc/#e4dff0;双色垂直分割+网格叠层+圆角按钮。\n- Vintage Editorial:Fraunces+Work Sans;#f5f3ee/#1a1a1a/暖强调;奶油底居中+抽象几何 CSS 形。\n特色:\n- Neon Cyber:Clash Display+Satoshi;深蓝/青/品红;粒子效果。\n- Terminal Green:JetBrains Mono;#0d1117/#39d353;扫描线+光标。\n- Swiss Modern:Archivo+Nunito;白/黑/红;网格+非对称。\n- Paper & Ink:Cormorant Garamond+Source Serif 4;奶油/炭/绯红;首字下沉。\n\n## 密度\n- speaker-led(演讲型):一页一个观点,留白多,1-3 条要点。\n- reading-first(阅读型):结构化网格/表格,4-8 条要点/卡片,信息自洽。\n若用户给了 density 就用它;为 auto 时你自行判断。\n\n## role 取值\ncover / toc / section / content / table / ending。\n\n## 输出契约(严格,只输出这段 JSON)\n{\n  \"style\": \"<上面 12 个预设名之一>\",\n  \"theme\": {\n    \"bg\": \"#...\", \"text\": \"#...\", \"accent\": \"#...\",\n    \"display_font\": \"<标题字体名>\", \"body_font\": \"<正文字体名>\",\n    \"google_fonts_url\": \"https://fonts.googleapis.com/css2?family=...&display=swap\"\n  },\n  \"density\": \"speaker-led | reading-first\",\n  \"outline\": [\n    {\"role\": \"cover\", \"title\": \"主标题\", \"points\": [\"副标题/作者\"]},\n    {\"role\": \"content\", \"title\": \"本页标题\", \"points\": [\"要点1\", \"要点2\"]}\n  ]\n}\n\n规则:\n1. style 必须严格等于 12 个预设名之一;theme 的字体与配色要与该预设一致。\n2. google_fonts_url 要能真实加载 display_font 与 body_font。\n3. outline 顺序即最终页序;封面/目录/正文/结尾齐全。\n4. points 要具体、可直接据此写文案。\n"
+        - role: user
+          text: '用户需求:
+
+            {{#sys.query#}}
+
+
+            密度:{{#start.density#}};期望页数:{{#start.pages#}}
+
+
+            请只输出大纲 JSON。'
+    - id: render
+      type: custom
+      width: 242
+      height: 98
+      position:
+        x: 600
+        y: 100
+      positionAbsolute:
+        x: 600
+        y: 100
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      data:
+        type: llm
+        title: 生成
+        desc: ''
+        selected: false
+        context:
+          enabled: false
+          variable_selector: []
+        vision:
+          enabled: false
+        model:
+          provider: wxj/bifrost/bifrost
+          name: qwen3.6-plus
+          mode: chat
+          completion_params:
+            temperature: 0.4
+        prompt_template:
+        - role: system
+          text: "你是幻灯片 HTML 生成器。给定一段大纲 JSON(含 style/theme/density/outline),\n生成一份完整、自包含、零依赖、可直接保存为 .html 打开的演示文件。\n\n铁律:\n1. **照抄下面的固定脚手架**,只改 :root 主题变量、追加所选预设专属样式、按 outline 填 <section class=\"slide\"> 正文与导航逻辑,不要删改固定基础样式与 SlidePresentation 控制器。\n2. 视觉:承诺式配色(强主色+锐利强调色,不要怯生生的平均分布)、刻意的字体层级、氛围式分层背景(多重 radial-gradient/网格/噪点);每页内容在 1920×1080 内排版,不做按设备 reflow。\n3. 动画:编排式分阶 reveal,给关键元素加 class=\"reveal\";避免零散微交互。\n4. 每页 <section class=\"slide\"> 贴合其 role(cover 写大标题副标题、toc 写目录条目、content 写要点、ending 收尾);第一页加 class=\"slide ... active visible\"。\n5. 可访问性:语义化标签;保留 prefers-reduced-motion(已在基础样式内)。\n6. 字体只走 link 里的 Google Fonts/Fontshare,不用系统字体。\n7. fail-open:即使大纲 JSON 不完整或字段缺失,也要尽力产出一份合理、不报错的演示;风格字段缺失时回退到深色 Bold Signal 系默认主题。\n\n输出要求:**只输出最终 HTML 全文**,从 <!DOCTYPE html> 开始,不要任何解释、不要 markdown 代码块包裹。\n\n\n## 必须照抄的固定 HTML 脚手架\n输出一份完整文件,结构如下;/* ===========================================\n   FIXED 16:9 STAGE: MANDATORY BASE STYLES\n   Include this ENTIRE file in every presentation.\n   Slides are authored at 1920×1080 and scaled as a whole.\n   =========================================== */\n\n/* 1. Lock the browser viewport */\nhtml,\nbody {\n    width: 100%;\n    height: 100%;\n    margin: 0;\n    overflow: hidden;\n    background: var(--stage-bg, #000);\n}\n\n/* 2. Full-window deck viewport */\n.deck-viewport {\n    position: fixed;\n    inset: 0;\n    overflow: hidden;\n    background: var(--stage-bg, #000);\n}\n\n/* 3. Fixed 16:9 design canvas.\n   JavaScript sets transform: translate(...) scale(...). */\n.deck-stage {\n    position: absolute;\n    left: 0;\n    top: 0;\n    width: 1920px;\n    height: 1080px;\n    overflow: hidden;\n    transform-origin: 0 0;\n    background: var(--slide-bg, #fff);\n}\n\n/* 4. Slides stack inside the fixed stage.\n   Content must be laid out at 1920×1080, not reflowed per device. */\n.slide {\n    position: absolute;\n    inset: 0;\n    width: 1920px;\n    height: 1080px;\n    overflow: hidden;\n    display: block;\n    visibility: hidden;\n    opacity: 0;\n    pointer-events: none;\n    background: var(--slide-bg, #fff);\n}\n\n.slide.active,\n.slide.visible {\n    visibility: visible;\n    opacity: 1;\n    pointer-events: auto;\n    z-index: 1;\n}\n\n/* 5. Keep media inside authored slide bounds */\nimg,\nvideo,\ncanvas,\nsvg {\n    max-width: 100%;\n    max-height: 100%;\n}\n\n/* 6. Presentation chrome stays outside the slide design system */\n.deck-controls {\n    position: fixed;\n    left: 50%;\n    bottom: 22px;\n    transform: translateX(-50%);\n    z-index: 1000;\n}\n\n/* 7. Print one fixed-size slide per page */\n@media print {\n    html,\n    body {\n        width: 1920px;\n        height: auto;\n        overflow: visible;\n        background: #fff;\n    }\n\n    .deck-viewport {\n        position: static;\n        overflow: visible;\n        background: #fff;\n    }\n\n    .deck-stage {\n        position: static;\n        width: auto;\n        height: auto;\n        transform: none !important;\n        background: none;\n    }\n\n    .slide {\n        position: relative;\n        display: block !important;\n        visibility: visible !important;\n        opacity: 1 !important;\n        pointer-events: auto !important;\n        width: 1920px;\n        height: 1080px;\n        break-after: page;\n        page-break-after: always;\n    }\n\n    .slide:last-child {\n        break-after: auto;\n        page-break-after: auto;\n    }\n\n    .deck-controls {\n        display: none !important;\n    }\n}\n\n/* 8. Reduced motion */\n@media (prefers-reduced-motion: reduce) {\n    *,\n    *::before,\n    *::after {\n        animation-duration: 0.01ms !important;\n        transition-duration: 0.2s !important;\n    }\n}\n 处已是固定基础样式,原样保留:\n\n<!DOCTYPE html>\n<html lang=\"zh\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>(用封面标题)</title>\n<link rel=\"stylesheet\" href=\"(plan 给的 google_fonts_url)\">\n<style>\n* { margin: 0; padding: 0; box-sizing: border-box; }\n:root {\n  /* 用 plan.theme 填充 */\n  --stage-bg: <theme.bg>;\n  --slide-bg:\
+            \ <theme.bg>;\n  --text-primary: <theme.text>;\n  --accent: <theme.accent>;\n  --font-display: <theme.display_font>, sans-serif;\n  --font-body: <theme.body_font>, sans-serif;\n  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);\n  --duration-normal: 0.6s;\n}\n\n/* >>> 固定基础样式(原样,不要改) <<< */\n/* ===========================================\n   FIXED 16:9 STAGE: MANDATORY BASE STYLES\n   Include this ENTIRE file in every presentation.\n   Slides are authored at 1920×1080 and scaled as a whole.\n   =========================================== */\n\n/* 1. Lock the browser viewport */\nhtml,\nbody {\n    width: 100%;\n    height: 100%;\n    margin: 0;\n    overflow: hidden;\n    background: var(--stage-bg, #000);\n}\n\n/* 2. Full-window deck viewport */\n.deck-viewport {\n    position: fixed;\n    inset: 0;\n    overflow: hidden;\n    background: var(--stage-bg, #000);\n}\n\n/* 3. Fixed 16:9 design canvas.\n   JavaScript sets transform: translate(...) scale(...). */\n.deck-stage {\n    position: absolute;\n    left: 0;\n    top: 0;\n    width: 1920px;\n    height: 1080px;\n    overflow: hidden;\n    transform-origin: 0 0;\n    background: var(--slide-bg, #fff);\n}\n\n/* 4. Slides stack inside the fixed stage.\n   Content must be laid out at 1920×1080, not reflowed per device. */\n.slide {\n    position: absolute;\n    inset: 0;\n    width: 1920px;\n    height: 1080px;\n    overflow: hidden;\n    display: block;\n    visibility: hidden;\n    opacity: 0;\n    pointer-events: none;\n    background: var(--slide-bg, #fff);\n}\n\n.slide.active,\n.slide.visible {\n    visibility: visible;\n    opacity: 1;\n    pointer-events: auto;\n    z-index: 1;\n}\n\n/* 5. Keep media inside authored slide bounds */\nimg,\nvideo,\ncanvas,\nsvg {\n    max-width: 100%;\n    max-height: 100%;\n}\n\n/* 6. Presentation chrome stays outside the slide design system */\n.deck-controls {\n    position: fixed;\n    left: 50%;\n    bottom: 22px;\n    transform: translateX(-50%);\n    z-index: 1000;\n}\n\n/* 7. Print one fixed-size slide per page */\n@media print {\n    html,\n    body {\n        width: 1920px;\n        height: auto;\n        overflow: visible;\n        background: #fff;\n    }\n\n    .deck-viewport {\n        position: static;\n        overflow: visible;\n        background: #fff;\n    }\n\n    .deck-stage {\n        position: static;\n        width: auto;\n        height: auto;\n        transform: none !important;\n        background: none;\n    }\n\n    .slide {\n        position: relative;\n        display: block !important;\n        visibility: visible !important;\n        opacity: 1 !important;\n        pointer-events: auto !important;\n        width: 1920px;\n        height: 1080px;\n        break-after: page;\n        page-break-after: always;\n    }\n\n    .slide:last-child {\n        break-after: auto;\n        page-break-after: auto;\n    }\n\n    .deck-controls {\n        display: none !important;\n    }\n}\n\n/* 8. Reduced motion */\n@media (prefers-reduced-motion: reduce) {\n    *,\n    *::before,\n    *::after {\n        animation-duration: 0.01ms !important;\n        transition-duration: 0.2s !important;\n    }\n}\n\n/* <<< 固定基础样式结束 >>> */\n\n/* 入场动画:由 .slide.visible 触发,逐项 stagger */\n.reveal { opacity: 0; transform: translateY(30px);\n  transition: opacity var(--duration-normal) var(--ease-out-expo),\n              transform var(--duration-normal) var(--ease-out-expo); }\n.slide.visible .reveal { opacity: 1; transform: translateY(0); }\n.reveal:nth-child(1){transition-delay:.1s} .reveal:nth-child(2){transition-delay:.2s}\n.reveal:nth-child(3){transition-delay:.3s} .reveal:nth-child(4){transition-delay:.4s}\n\n/* 这里追加所选预设的专属样式(配色块、排版、氛围背景等) */\n</style>\n</head>\n<body>\n<div class=\"deck-viewport\">\n  <main class=\"deck-stage\" id=\"deckStage\">\n    <!-- 按 outline 逐页输出 <section class=\"slide ...\">;第一页加 active visible -->\n  </main>\n</div>\n<div class=\"deck-controls\"><span id=\"pageNum\"></span></div>\n<script>\nclass SlidePresentation {\n  constructor(){\n    this.slides=document.querySelectorAll('.slide');\n   \
+            \ this.i=0; this.stage=document.getElementById('deckStage');\n    this.setupStageScale(); this.setupNav(); this.show(0);\n  }\n  setupStageScale(){\n    const s=()=>{const f=Math.min(innerWidth/1920,innerHeight/1080);\n      const x=(innerWidth-1920*f)/2, y=(innerHeight-1080*f)/2;\n      this.stage.style.transform=`translate(${x}px,${y}px) scale(${f})`;};\n    s(); addEventListener('resize', s);\n  }\n  setupNav(){\n    addEventListener('keydown',e=>{\n      if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();this.show(this.i+1);}\n      if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();this.show(this.i-1);}\n    });\n    let x0=null;\n    addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});\n    addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0;\n      if(Math.abs(dx)>40)this.show(this.i+(dx<0?1:-1));x0=null;});\n    let lock=false;\n    addEventListener('wheel',e=>{if(lock)return;lock=true;setTimeout(()=>lock=false,400);\n      this.show(this.i+(e.deltaY>0?1:-1));},{passive:true});\n  }\n  show(n){\n    this.i=Math.max(0,Math.min(n,this.slides.length-1));\n    this.slides.forEach((s,k)=>{const on=k===this.i;\n      s.classList.toggle('active',on); s.classList.toggle('visible',on);});\n    const el=document.getElementById('pageNum');\n    if(el)el.textContent=(this.i+1)+' / '+this.slides.length;\n  }\n}\nnew SlidePresentation();\n</script>\n</body>\n</html>\n"
+        - role: user
+          text: '大纲 JSON:
+
+            {{#plan.text#}}
+
+
+            请只输出最终 HTML 全文。'
+    - id: answer
+      type: custom
+      width: 242
+      height: 116
+      position:
+        x: 900
+        y: 100
+      positionAbsolute:
+        x: 900
+        y: 100
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      data:
+        type: answer
+        title: 直接回复
+        desc: ''
+        selected: false
+        answer: '```html
+
+          {{#render.text#}}
+
+          ```'
+        variables: []
+    edges:
+    - id: start-plan
+      source: start
+      target: plan
+      sourceHandle: source
+      targetHandle: target
+      type: custom
+      selected: false
+      data:
+        sourceType: custom
+        targetType: custom
+        isInLoop: false
+    - id: plan-render
+      source: plan
+      target: render
+      sourceHandle: source
+      targetHandle: target
+      type: custom
+      selected: false
+      data:
+        sourceType: custom
+        targetType: custom
+        isInLoop: false
+    - id: render-answer
+      source: render
+      target: answer
+      sourceHandle: source
+      targetHandle: target
+      type: custom
+      selected: false
+      data:
+        sourceType: custom
+        targetType: custom
+        isInLoop: false
+    viewport:
+      x: 0
+      y: 0
+      zoom: 0.8
+  rag_pipeline_variables: []
