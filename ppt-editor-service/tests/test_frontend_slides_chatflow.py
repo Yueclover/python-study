@@ -114,3 +114,14 @@ def test_build_writes_loadable_yaml(tmp_path):
     out.write_text(yaml.safe_dump(app, allow_unicode=True, sort_keys=False), encoding="utf-8")
     reloaded = yaml.safe_load(out.read_text(encoding="utf-8"))
     assert reloaded["app"]["mode"] == "advanced-chat"
+
+
+def test_generated_yaml_exists_and_matches_build():
+    assert YML.is_file(), "请先运行 build 脚本生成 YAML"
+    on_disk = yaml.safe_load(YML.read_text(encoding="utf-8"))
+    fresh = _load_build().build_app()
+    assert on_disk == fresh, "YAML 与 build_app() 不一致,请重新运行 build 脚本"
+    # 关键交付契约
+    assert on_disk["app"]["mode"] == "advanced-chat"
+    ids = {n["id"] for n in on_disk["workflow"]["graph"]["nodes"]}
+    assert ids == {"start", "plan", "render", "answer"}
