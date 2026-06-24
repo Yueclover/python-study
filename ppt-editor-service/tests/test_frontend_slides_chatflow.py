@@ -43,6 +43,9 @@ def test_render_prompt_inlines_css_and_rules():
     for marker in [".deck-stage", ".slide.active", "prefers-reduced-motion"]:
         assert marker in r
     assert "width: 1920px" in r
+    # 证明 CSS 文件内容（不只是脚手架文本）被内联
+    assert "MANDATORY BASE STYLES" in r, "CSS 文件头注释未被内联"
+    assert "transform-origin: 0 0;" in r, "CSS transform-origin 规则未被内联"
     # 脚手架与铁律
     for token in ["SlidePresentation", "setupStageScale", "<!DOCTYPE html>"]:
         assert token in r, f"render 提示词缺少脚手架标记: {token}"

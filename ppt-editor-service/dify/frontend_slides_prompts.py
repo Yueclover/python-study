@@ -150,7 +150,7 @@ _RENDER_RULES = """你是幻灯片 HTML 生成器。给定一段大纲 JSON(含 
 生成一份完整、自包含、零依赖、可直接保存为 .html 打开的演示文件。
 
 铁律:
-1. **照抄上面的固定脚手架**,只改 :root 主题变量、追加所选预设专属样式、按 outline 填 <section class="slide"> 正文与导航逻辑,不要删改固定基础样式与 SlidePresentation 控制器。
+1. **照抄下面的固定脚手架**,只改 :root 主题变量、追加所选预设专属样式、按 outline 填 <section class="slide"> 正文与导航逻辑,不要删改固定基础样式与 SlidePresentation 控制器。
 2. 视觉:承诺式配色(强主色+锐利强调色,不要怯生生的平均分布)、刻意的字体层级、氛围式分层背景(多重 radial-gradient/网格/噪点);每页内容在 1920×1080 内排版,不做按设备 reflow。
 3. 动画:编排式分阶 reveal,给关键元素加 class="reveal";避免零散微交互。
 4. 每页 <section class="slide"> 贴合其 role(cover 写大标题副标题、toc 写目录条目、content 写要点、ending 收尾);第一页加 class="slide ... active visible"。
