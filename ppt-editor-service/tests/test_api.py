@@ -1,0 +1,81 @@
+import io
+from pptx import Presentation
+from fastapi.testclient import TestClient
+import app.main as main_mod
+from app.main import app
+
+
+def _setup_storage(tmp_path):
+    from app.storage import Storage
+    main_mod.storage = Storage(str(tmp_path))
+
+
+def test_parse_then_apply_then_download(tmp_path, basic_pptx_path):
+    _setup_storage(tmp_path)
+    client = TestClient(app)
+
+    with open(basic_pptx_path, "rb") as f:
+        resp = client.post("/parse", files={"file": ("t.pptx", f, "application/octet-stream")})
+    assert resp.status_code == 200
+    doc = resp.json()
+    doc_id = doc["doc_id"]
+    assert doc["slides"][0]["shapes"][0]["shape_id"] == "s1_sh1"
+
+    resp2 = client.post("/apply", json={
+        "doc_id": doc_id,
+        "ops": [{"op": "set_text", "shape_id": "s1_sh1", "text": "改后标题"}],
+    })
+    assert resp2.status_code == 200
+    body = resp2.json()
+    assert body["applied"] == 1 and body["rejected"] == []
+    name = body["download_url"].split("/files/")[1]
+
+    resp3 = client.get(f"/files/{name}")
+    assert resp3.status_code == 200
+    prs = Presentation(io.BytesIO(resp3.content))
+    assert prs.slides[0].shapes[0].text_frame.text == "改后标题"
+
+
+def test_parse_rejects_garbage(tmp_path):
+    _setup_storage(tmp_path)
+    client = TestClient(app)
+    resp = client.post("/parse", files={"file": ("x.pptx", io.BytesIO(b"not a pptx"), "application/octet-stream")})
+    assert resp.status_code == 400
+
+
+def test_apply_unknown_doc(tmp_path):
+    """Well-formed but non-existent doc_id hits the real handler guard."""
+    _setup_storage(tmp_path)
+    client = TestClient(app)
+    resp = client.post("/apply", json={"doc_id": "deadbeef", "ops": []})
+    assert resp.status_code == 404
+    assert resp.json()["detail"] == "doc_id 不存在"
+
+
+def test_apply_malformed_doc_id(tmp_path):
+    """Malformed doc_id (not 8 hex chars) is rejected 404 before any filesystem access."""
+    _setup_storage(tmp_path)
+    client = TestClient(app)
+    resp = client.post("/apply", json={"doc_id": "../../etc", "ops": []})
+    assert resp.status_code == 404
+
+
+def test_files_malformed_doc_id(tmp_path):
+    """Malformed doc_id in /files route is rejected 404 explicitly."""
+    _setup_storage(tmp_path)
+    client = TestClient(app)
+    resp = client.get("/files/../../etc-out.pptx")
+    assert resp.status_code == 404
+
+
+def test_parse_returns_skeleton(tmp_path, basic_pptx_path):
+    import app.main as main_mod
+    from app.storage import Storage
+    main_mod.storage = Storage(str(tmp_path))
+    from fastapi.testclient import TestClient
+    client = TestClient(main_mod.app)
+    with open(basic_pptx_path, "rb") as f:
+        resp = client.post("/parse", files={"file": ("t.pptx", f, "application/octet-stream")})
+    assert resp.status_code == 200
+    sk = resp.json()["skeleton"]
+    assert sk["slides"][0]["role"] == "cover"

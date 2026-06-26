@@ -1,0 +1,681 @@
+app:
+  description: 上传 PPT 模板 → LLM 生成编辑指令 → 回写新 pptx 下载
+  icon: 📊
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: workflow
+  name: PPT模板LLM编辑
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: package
+  value:
+    plugin_unique_identifier: wxj/bifrost:0.2.1@e54846309f4fe7df639c343ecee9a0e0801c772388a7bcb7c1bda8ec1e114ffd
+    version: null
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables: []
+  environment_variables:
+  - description: ''
+    id: env-svc-0001
+    name: SVC
+    selector:
+    - env
+    - SVC
+    value: http://172.16.40.114:8000
+    value_type: string
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 20
+        file_size_limit: 100
+        file_upload_limit: 20
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        sourceType: start
+        targetType: http-request
+      id: e1
+      selected: false
+      source: start
+      sourceHandle: source
+      target: http_parse
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: http-request
+        targetType: code
+      id: e2
+      selected: false
+      source: http_parse
+      sourceHandle: source
+      target: code_extract
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: llm
+      id: e3
+      selected: false
+      source: code_extract
+      sourceHandle: source
+      target: llm_a
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: code
+      id: e4
+      selected: false
+      source: llm_a
+      sourceHandle: source
+      target: code_join
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: llm
+      id: e5
+      selected: false
+      source: code_join
+      sourceHandle: source
+      target: llm_fill_all
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: code
+      id: e6
+      selected: false
+      source: llm_fill_all
+      sourceHandle: source
+      target: code_assemble
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: http-request
+      id: e7
+      selected: false
+      source: code_assemble
+      sourceHandle: source
+      target: http_apply_plan
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        sourceType: http-request
+        targetType: end
+      id: e8
+      selected: false
+      source: http_apply_plan
+      sourceHandle: source
+      target: end
+      targetHandle: target
+      type: custom
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 17817757512960-source-llm_a-target
+      selected: false
+      source: '17817757512960'
+      sourceHandle: source
+      target: llm_a
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: start-source-17817757512960-target
+      source: start
+      sourceHandle: source
+      target: '17817757512960'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - allowed_file_extensions:
+          - .pptx
+          allowed_file_types:
+          - document
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          label: PPT模板
+          options: []
+          required: true
+          type: file
+          variable: file
+        - label: 用户需求
+          max_length: 2000
+          options: []
+          required: true
+          type: paragraph
+          variable: user_brief
+        - label: 篇幅
+          type: select
+          variable: content_length
+          required: false
+          default: normal
+          options:
+          - short
+          - normal
+          - long
+      height: 134
+      id: start
+      position:
+        x: 0
+        y: 0
+      positionAbsolute:
+        x: 0
+        y: 0
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - file:
+            - start
+            - file
+            id: parse-file-item
+            key: file
+            type: file
+            value: ''
+          type: form-data
+        desc: POST /parse，上传 pptx 取结构化 JSON
+        headers: ''
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: 解析PPT
+        type: http-request
+        url: '{{#env.SVC#}}/parse'
+      height: 169
+      id: http_parse
+      position:
+        x: 342
+        y: 5.5
+      positionAbsolute:
+        x: 342
+        y: 5.5
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def main(parse_body: str) -> dict:\n    import json\n    doc_id, skeleton,\
+          \ pages = \"\", \"{}\", \"[]\"\n    try:\n        pj = json.loads(parse_body)\n\
+          \        doc_id = pj.get(\"doc_id\", \"\")\n        sk = pj.get(\"skeleton\"\
+          , {\"slides\": []})\n        if not isinstance(sk, dict):\n            sk\
+          \ = {\"slides\": []}\n        skeleton = json.dumps(sk, ensure_ascii=False)\n\
+          \        pages = json.dumps(\n            [{\"slide_id\": s[\"slide_id\"\
+          ], \"role\": s[\"role\"]}\n             for s in sk.get(\"slides\", [])],\
+          \ ensure_ascii=False)\n    except Exception:\n        pass\n    return {\"\
+          doc_id\": doc_id, \"skeleton\": skeleton, \"pages\": pages}\n"
+        code_language: python3
+        outputs:
+          doc_id:
+            type: string
+          pages:
+            type: string
+          skeleton:
+            type: string
+        selected: false
+        title: 提取骨架
+        type: code
+        variables:
+        - value_selector:
+          - http_parse
+          - body
+          variable: parse_body
+      height: 51
+      id: code_extract
+      position:
+        x: 684
+        y: 92.16666666666666
+      positionAbsolute:
+        x: 684
+        y: 92.16666666666666
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.2
+            thinking: false
+          mode: chat
+          name: qwen3.6-plus
+          provider: wxj/bifrost/bifrost
+        prompt_template:
+        - id: 1e1a66f6-05b0-4908-9f38-fee9392ff15b
+          role: system
+          text: "你是PPT结构规划师。根据大纲和模板页面清单，规划要产出的每一页。\n只输出 JSON，含 outline 数组，不要解释、不要代码块包裹。\n\
+            规则：\n1. outline 每项 = {\"use_slide_id\":\"<模板页slide_id>\",\"role\":\"<该页role>\"\
+            ,\"brief\":\"这页要写的内容要点\"}。\n2. 不要改变页面顺序；正文等可重复页要几页就重复列几项（use_slide_id\
+            \ 相同）。\n3. role 取自页面清单里出现过的值（cover/toc/section/content/table/ending/generic）。\n\
+            4. brief 要具体、可直接据此写文案；正文每项 2-3 句、有数据感。\n5. 正文页数与篇幅档位匹配：short≈8页、normal≈14页、long≈20页（空值按\
+            \ normal）；该计数不含封面/目录/过渡/结尾页。\n输出示例：\n{\"outline\":[\n  {\"use_slide_id\"\
+            :\"s1\",\"role\":\"cover\",\"brief\":\"主标题:2026产品发布；副标题:让服务快人一步\"},\n\
+            \  {\"use_slide_id\":\"s2\",\"role\":\"toc\",\"brief\":\"目录4项:背景/方案/数据/计划\"\
+            },\n  {\"use_slide_id\":\"s5\",\"role\":\"content\",\"brief\":\"背景:市场规模...\"\
+            },\n  {\"use_slide_id\":\"s5\",\"role\":\"content\",\"brief\":\"方案:三步走...\"\
+            }\n]}\n"
+        - id: b0c8e545-ec42-433f-a05c-0bb14efdfa0e
+          role: user
+          text: '模板页面清单（slide_id 与 role）：
+
+            {{#code_extract.pages#}}
+
+
+            大纲：
+
+            {{#17817757512960.text#}}
+
+
+            篇幅档位：{{#start.content_length#}}
+
+
+            请只输出 outline 的 JSON。
+
+            '
+        selected: false
+        title: 大纲规划
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: llm_a
+      position:
+        x: 1026
+        y: 82.83333333333334
+      positionAbsolute:
+        x: 1026
+        y: 82.83333333333334
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def main(outline_text: str, skeleton: str) -> dict:\n    import json,\
+          \ re\n    outline = []\n    m = re.search(r\"\\{.*\\}\", outline_text or\
+          \ \"\", re.S)\n    if m:\n        try:\n            outline = json.loads(m.group(0)).get(\"\
+          outline\", [])\n        except Exception:\n            outline = []\n  \
+          \  slots_by_slide = {}\n    try:\n        sk = json.loads(skeleton)\n  \
+          \      if not isinstance(sk, dict):\n            sk = {\"slides\": []}\n\
+          \        for s in sk.get(\"slides\", []):\n            slots_by_slide[s[\"\
+          slide_id\"]] = [\n                sl for sl in s.get(\"slots\", []) if sl.get(\"\
+          editable\")]\n    except Exception:\n        pass\n    # kept_ids: all outline-referenced\
+          \ slide_ids that exist in skeleton\n    # (regardless of whether they have\
+          \ editable slots)\n    seen_kept = set()\n    kept_ids = []\n    for it\
+          \ in outline:\n        sid = it.get(\"use_slide_id\")\n        if sid in\
+          \ slots_by_slide and sid not in seen_kept:\n            seen_kept.add(sid)\n\
+          \            kept_ids.append(sid)\n    tasks = []\n    for it in outline:\n\
+          \        sid = it.get(\"use_slide_id\")\n        if sid not in slots_by_slide:\n\
+          \            continue\n        # skip LLM call for slides with no editable\
+          \ slots, but keep in kept_ids\n        if not slots_by_slide[sid]:\n   \
+          \         continue\n        tasks.append({\n            \"slide_id\": sid,\n\
+          \            \"role\": it.get(\"role\", \"\"),\n            \"brief\": it.get(\"\
+          brief\", \"\"),\n            \"slots\": slots_by_slide[sid],\n        })\n\
+          \    return {\"tasks\": json.dumps(tasks, ensure_ascii=False),\n       \
+          \     \"count\": len(tasks),\n            \"kept_ids\": json.dumps(kept_ids,\
+          \ ensure_ascii=False)}\n"
+        code_language: python3
+        outputs:
+          count:
+            type: number
+          kept_ids:
+            type: string
+          tasks:
+            type: string
+        selected: false
+        title: 合并大纲与骨架
+        type: code
+        variables:
+        - value_selector:
+          - llm_a
+          - text
+          variable: outline_text
+        - value_selector:
+          - code_extract
+          - skeleton
+          variable: skeleton
+      height: 51
+      id: code_join
+      position:
+        x: 1368
+        y: 115.5
+      positionAbsolute:
+        x: 1368
+        y: 115.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.2
+            thinking: false
+          mode: chat
+          name: qwen3.6-plus
+          provider: wxj/bifrost/bifrost
+        prompt_template:
+        - role: system
+          text: '你是PPT文案填充器。给定多页的填充任务，为每一页的每个文本槽填上最终文字。
+
+            只输出 JSON：{"pages":[{"slide_id":"<本页slide_id>","fields":{"<shape_id>":"文本",...}},
+            ...]}。
+
+            不要解释、不要代码块包裹。
+
+            规则：
+
+            1. 每页 fields 的 key 只能用该页 slots 里给的 shape_id，不得编造、不得跨页混用。
+
+            2. 每个可编辑槽都要给出文本。仅以下内容保持 current_text 原值：页码数字(如01-05)、日期、品牌口号"专
+            注 AI   探 索未 来"、"目录/CONTENTS"、"感谢观看"。
+
+            3. 栏目/章节标题类文字（如模板里的"创新与成长""三季度工作完成情况""存在主要问题""四季度工作规划""想法和建议"）必须按本页
+            brief 改写成贴合本页主题的简短标签，不得保留模板原值。
+
+            4. 内容依据每页的 brief，贴合该页 role（封面写标题副标题、目录写条目、正文写要点）。
+
+            5. 输入有几个任务就输出几页，slide_id 一一对应（同一 slide_id 出现多次就输出多次，顺序保持）。
+
+            '
+        - role: user
+          text: '填充任务列表（每项含 slide_id / role / brief / slots）：
+
+            {{#code_join.tasks#}}
+
+
+            请只输出 pages 的 JSON。
+
+            '
+        selected: false
+        title: 批量填充
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: llm_fill_all
+      position:
+        x: 1710
+        y: 106.16666666666667
+      positionAbsolute:
+        x: 1710
+        y: 106.16666666666667
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def main(fill_text: str, skeleton: str, kept_ids: str) -> dict:\n \
+          \   import json, re\n    page_outputs = []\n    m = re.search(r\"\\{.*\\\
+          }\", fill_text or \"\", re.S)\n    if m:\n        try:\n            data\
+          \ = json.loads(m.group(0))\n        except Exception:\n            data\
+          \ = {}\n        for o in data.get(\"pages\", []):\n            if o.get(\"\
+          slide_id\") and isinstance(o.get(\"fields\"), dict):\n                page_outputs.append({\"\
+          slide_id\": o[\"slide_id\"],\n                                     \"fields\"\
+          : o[\"fields\"]})\n    sk = {}\n    try:\n        sk = json.loads(skeleton)\n\
+          \        if not isinstance(sk, dict):\n            sk = {\"slides\": []}\n\
+          \    except Exception:\n        sk = {}\n    kept = set()\n    try:\n  \
+          \      kept = set(json.loads(kept_ids or \"[]\"))\n    except Exception:\n\
+          \        kept = set()\n    # 内联 assemble_plan（与 app/assemble.py 等价，含 kept_ids\
+          \ 逻辑）\n    # 只统计 fields 非空的输出（空 fields 视为 no-op）\n    by_slide = {}\n  \
+          \  for o in page_outputs:\n        fields = o.get(\"fields\") or {}\n  \
+          \      if not fields:\n            continue\n        by_slide.setdefault(o[\"\
+          slide_id\"], []).append(fields)\n    plan = []\n    for sl in sk.get(\"\
+          slides\", []):\n        sid = sl.get(\"slide_id\")\n        occs = by_slide.get(sid,\
+          \ [])\n        if not occs:\n            if sid in kept:\n             \
+          \   # 大纲引用但无可填字段 → 原样保留，不发出任何 op\n                pass\n            else:\n\
+          \                plan.append({\"kind\": \"drop\", \"slide_id\": sid})\n\
+          \        elif len(occs) == 1:\n            plan.append({\"kind\": \"fill\"\
+          , \"slide_id\": sid, \"fields\": occs[0]})\n        else:\n            #\
+          \ N>1: reuse original for occs[0], duplicate only N-1 extras\n         \
+          \   plan.append({\"kind\": \"repeat\", \"slide_id\": sid, \"items\": occs[1:]})\n\
+          \            plan.append({\"kind\": \"fill\", \"slide_id\": sid, \"fields\"\
+          : occs[0]})\n    return {\"plan_json\": json.dumps(plan, ensure_ascii=False),\n\
+          \            \"valid\": 1 if plan else 0}\n"
+        code_language: python3
+        outputs:
+          plan_json:
+            type: string
+          valid:
+            type: number
+        selected: false
+        title: 组装Plan
+        type: code
+        variables:
+        - value_selector:
+          - llm_fill_all
+          - text
+          variable: fill_text
+        - value_selector:
+          - code_extract
+          - skeleton
+          variable: skeleton
+        - value_selector:
+          - code_join
+          - kept_ids
+          variable: kept_ids
+      height: 51
+      id: code_assemble
+      position:
+        x: 2052
+        y: 138.83333333333337
+      positionAbsolute:
+        x: 2052
+        y: 138.83333333333337
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - type: text
+            value: '{"doc_id": "{{#code_extract.doc_id#}}", "plan": {{#code_assemble.plan_json#}}}'
+          type: json
+        headers: Content-Type:application/json
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: 回写PPT(plan)
+        type: http-request
+        url: '{{#env.SVC#}}/apply_plan'
+      height: 125
+      id: http_apply_plan
+      position:
+        x: 2394
+        y: 111.00000000000001
+      positionAbsolute:
+        x: 2394
+        y: 111.00000000000001
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        desc: 返回 /apply_plan 的结果（含 download_url 与 rejected）
+        outputs:
+        - value_selector:
+          - http_apply_plan
+          - body
+          variable: apply_result
+        selected: false
+        title: 结束
+        type: end
+      height: 132
+      id: end
+      position:
+        x: 2736
+        y: 128.33333333333337
+      positionAbsolute:
+        x: 2736
+        y: 128.33333333333337
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        isInIteration: false
+        isInLoop: false
+        model:
+          completion_params:
+            temperature: 0.2
+            thinking: false
+          mode: chat
+          name: minimax-m3
+          provider: wxj/bifrost/bifrost
+        prompt_template:
+        - id: 1e1a66f6-05b0-4908-9f38-fee9392ff15b
+          role: system
+          text: '你是PPT大纲规划师。根据用户需求规划要产出的每一页。
+
+            只输出 JSON，含 outline 数组，不要解释、不要代码块包裹。
+
+            篇幅控制：正文要点数量按"篇幅档位"决定——short≈8项、normal≈14项、long≈20项；档位为空或无法识别时按
+            normal(14)处理。封面/目录/结尾不计入该数量。
+
+            '
+        - id: b0c8e545-ec42-433f-a05c-0bb14efdfa0e
+          role: user
+          text: '篇幅档位：{{#start.content_length#}}
+
+            用户需求：
+
+            {{#start.user_brief#}}
+
+
+            请只输出 outline 的 JSON。
+
+            '
+        selected: false
+        title: 大纲
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: '17817757512960'
+      position:
+        x: 333.7142857142857
+        y: 335.5476190476191
+      positionAbsolute:
+        x: 333.7142857142857
+        y: 335.5476190476191
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -83.45251103796681
+      y: 327.64241559849165
+      zoom: 0.7000000000000001
+  rag_pipeline_variables: []

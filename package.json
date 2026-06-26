@@ -1,0 +1,18 @@
+"views": {
+      "fenbiBar": [
+        {
+          "type": "webview",
+          "id": "openFenbiWebview",
+          "name": "container"
+        }
+      ]
+    },
+"viewsContainers": {
+      "activitybar": [
+        {
+          "id": "fenbiBar",
+          "title": "fenbi",
+          "icon": "resources/dark/fenbi.svg"
+        }
+      ]
+    },

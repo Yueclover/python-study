@@ -1,0 +1,2431 @@
+<section id="slide-1" class="slide layout-cover" aria-label="第 1 页">
+  <style scoped>
+    .slide {
+      width: 960px;
+      height: 540px;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1f4e 50%, #2d1b69 100%);
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 60px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .slide::after {
+      content: "";
+      position: absolute;
+      bottom: -150px;
+      left: -150px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(168,85,247,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .brand-tag {
+      display: inline-block;
+      padding: 6px 18px;
+      background: rgba(99,102,241,0.2);
+      border: 1px solid rgba(99,102,241,0.5);
+      border-radius: 20px;
+      font-size: 14px;
+      letter-spacing: 2px;
+      color: #a5b4fc;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .title {
+      font-size: 56px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin: 0 0 16px 0;
+      background: linear-gradient(90deg, #fff 0%, #c7d2fe 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      z-index: 1;
+    }
+    .subtitle {
+      font-size: 22px;
+      color: #a5b4fc;
+      margin: 0 0 40px 0;
+      font-weight: 300;
+      position: relative;
+      z-index: 1;
+    }
+    .product-list {
+      display: flex;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+    .product-chip {
+      padding: 10px 20px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      font-size: 15px;
+      backdrop-filter: blur(10px);
+    }
+    .product-chip strong {
+      color: #818cf8;
+      margin-right: 6px;
+    }
+    .footer-info {
+      position: absolute;
+      bottom: 40px;
+      left: 80px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      z-index: 1;
+    }
+  </style>
+  <span class="brand-tag">MiMouse · AI 键鼠原创者</span>
+  <h1 class="title">咪鼠 AI 键鼠产品矩阵</h1>
+  <p class="subtitle">智能键鼠 11 年 · 14 种 AI 模型 · 100+ 项 AI 功能</p>
+  <div class="product-list">
+    <div class="product-chip"><strong>KB6AI</strong>剪刀脚办公键盘</div>
+    <div class="product-chip"><strong>M4AI</strong>对称蓝光鼠标</div>
+    <div class="product-chip"><strong>M5AI</strong>人体工学鼠标</div>
+    <div class="product-chip"><strong>MK17AI</strong>机械小键盘</div>
+    <div class="product-chip"><strong>MK87AI</strong>RGB机械键盘</div>
+  </div>
+  <div class="footer-info">MiMouse 咪鼠 | 2015–2026 | AI 键鼠原创者</div>
+</section>
+
+<section id="slide-2" class="slide layout-intro" aria-label="第 2 页">
+  <style scoped>
+    .slide {
+      width: 960px;
+      height: 540px;
+      background: #f8fafc;
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #1e293b;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 50px 70px;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+    }
+    .page-num {
+      position: absolute;
+      top: 30px;
+      right: 70px;
+      font-size: 13px;
+      color: #94a3b8;
+      letter-spacing: 1px;
+    }
+    .section-label {
+      font-size: 14px;
+      color: #6366f1;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .main-title {
+      font-size: 38px;
+      font-weight: 800;
+      margin: 0 0 40px 0;
+      color: #0f172a;
+    }
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .info-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      border: 1px solid #e2e8f0;
+    }
+    .info-card h3 {
+      font-size: 20px;
+      margin: 0 0 16px 0;
+      color: #4f46e5;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .info-card h3::before {
+      content: "";
+      width: 4px;
+      height: 20px;
+      background: #6366f1;
+      border-radius: 2px;
+    }
+    .info-card p {
+      font-size: 15px;
+      line-height: 1.8;
+      color: #475569;
+      margin: 0 0 12px 0;
+    }
+    .stat-row {
+      display: flex;
+      gap: 24px;
+      margin-top: 20px;
+    }
+    .stat-item {
+      flex: 1;
+      text-align: center;
+      padding: 16px 8px;
+      background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+      border-radius: 12px;
+    }
+    .stat-num {
+      font-size: 28px;
+      font-weight: 800;
+      color: #4f46e5;
+      display: block;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+    .compat-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .compat-tag {
+      padding: 4px 12px;
+      background: #f1f5f9;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #475569;
+    }
+  </style>
+  <div class="page-num">01 / 14</div>
+  <div class="section-label">BRAND INTRODUCTION</div>
+  <h2 class="main-title">品牌介绍：AI 键鼠原创者</h2>
+  <div class="content-grid">
+    <div class="info-card">
+      <h3>公司与定位</h3>
+      <p><strong>咪鼠 MiMouse</strong>，专注智能键鼠 <strong>11 年</strong>（2015–2026），是 AI 键鼠品类的原创者与引领者。</p>
+      <p>以硬件 + AI 大模型为核心，将 14 种先进 AI 模型与 100+ 项 AI 功能深度融入键鼠交互，打造全新生产力工具。</p>
+      <div class="stat-row">
+        <div class="stat-item">
+          <span class="stat-num">11<span style="font-size:14px">年</span></span>
+          <span class="stat-label">专注智能键鼠</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">14<span style="font-size:14px">种</span></span>
+          <span class="stat-label">免费 AI 模型</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">100<span style="font-size:14px">+</span></span>
+          <span class="stat-label">AI 功能</span>
+        </div>
+      </div>
+    </div>
+    <div class="info-card">
+      <h3>全系统兼容</h3>
+      <p>覆盖微软、苹果、国产及国际版主流操作系统，无缝适配各类办公与生产环境。</p>
+      <div class="compat-tags">
+        <span class="compat-tag">Windows 7/8/10/11</span>
+        <span class="compat-tag">macOS 10.15+</span>
+        <span class="compat-tag">UOS</span>
+        <span class="compat-tag">银河麒麟</span>
+        <span class="compat-tag">Deepin</span>
+        <span class="compat-tag">Open Kylin</span>
+        <span class="compat-tag">优麒麟</span>
+        <span class="compat-tag">Ubuntu</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="slide-3" class="slide layout-overview" aria-label="第 3 页">
+  <style scoped>
+    .slide {
+      width: 960px;
+      height: 540px;
+      background: #0f172a;
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 50px 70px;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 60%;
+      height: 100%;
+      background: radial-gradient(ellipse at top right, rgba(99,102,241,0.15), transparent 60%);
+    }
+    .page-num {
+      position: absolute;
+      top: 30px;
+      right: 70px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 1px;
+      z-index: 2;
+    }
+    .section-label {
+      font-size: 14px;
+      color: #818cf8;
+      font-weight: 600;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
+    }
+    .main-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin: 0 0 30px 0;
+      position: relative;
+      z-index: 1;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+    .product-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 20px 14px;
+      text-align: center;
+      transition: all 0.3s;
+      backdrop-filter: blur(10px);
+    }
+    .product-card:nth-child(1) { border-top: 3px solid #6366f1; }
+    .product-card:nth-child(2) { border-top: 3px solid #8b5cf6; }
+    .product-card:nth-child(3) { border-top: 3px solid #ec4899; }
+    .product-card:nth-child(4) { border-top: 3px solid #f59e0b; }
+    .product-card:nth-child(5) { border-top: 3px solid #10b981; }
+    .card-icon {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    .card-name {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .card-type {
+      font-size: 11px;
+      color: #818cf8;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    .card-desc {
+      font-size: 12px;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+    .card-spec {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: 11px;
+      color: #cbd5e1;
+      line-height: 1.7;
+    }
+  </style>
+  <div class="page-num">02 / 14</div>
+  <div class="section-label">PRODUCT LINEUP</div>
+  <h2 class="main-title">5 款产品定位速览</h2>
+  <div class="product-grid">
+    <div class="product-card">
+      <div class="card-icon">⌨️</div>
+      <div class="card-name">KB6AI</div>
+      <div class="card-type">办公键盘</div>
+      <div class="card-desc">剪刀脚结构<br>轻薄便携设计</div>
+      <div class="card-spec">96键 / 500Hz<br>2ms / 蓝牙+2.4G</div>
+    </div>
+    <div class="product-card">
+      <div class="card-icon">🖱️</div>
+      <div class="card-name">M4AI</div>
+      <div class="card-type">对称鼠标</div>
+      <div class="card-desc">蓝光传感器<br>左右手通用</div>
+      <div class="card-spec">6键 / 800-4000DPI<br>92g / 双模</div>
+    </div>
+    <div class="product-card">
+      <div class="card-icon">🖱️</div>
+      <div class="card-name">M5AI</div>
+      <div class="card-type">人体工学</div>
+      <div class="card-desc">红光传感器<br>垂直握感设计</div>
+      <div class="card-spec">7键 / 800-2400DPI<br>84g / 双模</div>
+    </div>
+    <div class="product-card">
+      <div class="card-icon">🔢</div>
+      <div class="card-name">MK17AI</div>
+      <div class="card-type">机械小键盘</div>
+      <div class="card-desc">九紫樱粉轴<br>热插拔支持</div>
+      <div class="card-spec">19键 / 5000万次<br>1ms / 三模</div>
+    </div>
+    <div class="product-card">
+      <div class="card-icon">⌨️</div>
+      <div class="card-name">MK87AI</div>
+      <div class="card-type">旗舰机械键盘</div>
+      <div class="card-desc">九紫烟雨轴<br>RGB背光全键无冲</div>
+      <div class="card-spec">88键 / 1000Hz<br>1ms / 三模</div>
+    </div>
+  </div>
+</section>
+
+<section id="slide-4" class="slide layout-connectivity" aria-label="第 4 页">
+  <style scoped>
+    .slide {
+      width: 960px;
+      height: 540px;
+      background: #f8fafc;
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #1e293b;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 50px 70px;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+    }
+    .page-num {
+      position: absolute;
+      top: 30px;
+      right: 70px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+    .section-label {
+      font-size: 14px;
+      color: #6366f1;
+      font-weight: 600;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+    .main-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin: 0 0 30px 0;
+      color: #0f172a;
+    }
+    .top-bar {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .spec-pill {
+      flex: 1;
+      background: #fff;
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .pill-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .pill-info strong {
+      display: block;
+      font-size: 15px;
+      color: #0f172a;
+    }
+    .pill-info span {
+      font-size: 12px;
+      color: #64748b;
+    }
+    .mode-section {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      border: 1px solid #e2e8f0;
+    }
+    .mode-section h3 {
+      font-size: 18px;
+      margin: 0 0 18px 0;
+      color: #4f46e5;
+    }
+    .mode-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .mode-table th {
+      text-align: left;
+      padding: 10px 14px;
+      background: #f1f5f9;
+      font-size: 13px;
+      color: #475569;
+      font-weight: 600;
+    }
+    .mode-table th:first-child { border-radius: 8px 0 0 8px; }
+    .mode-table th:last-child { border-radius: 0 8px 8px 0; }
+    .mode-table td {
+      padding: 12px 14px;
+      font-size: 13px;
+      color: #334155;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .badge-dual { background: #dbeafe; color: #2563eb; }
+    .badge-tri { background: #ede9fe; color: #7c3aed; }
+  </style>
+  <div class="page-num">03 / 14</div>
+  <div class="section-label">CONNECTIVITY & COMPATIBILITY</div>
+  <h2 class="main-title">连接与兼容</h2>
+  <div class="top-bar">
+    <div class="spec-pill">
+      <div class="pill-icon">芯片</div>
+      <div class="pill-info"><strong>MI-B11 主控芯片</strong><span>全系列统一搭载</span></div>
+    </div>
+    <div class="spec-pill">
+      <div class="pill-icon">BT</div>
+      <div class="pill-info"><strong>蓝牙 5.0</strong><span>低功耗稳定连接</span></div>
+    </div>
+    <div class="spec-pill">
+      <div class="pill-icon">USB</div>
+      <div class="pill-info"><strong>2.4G 无线接收器</strong><span>MiMouse USB Receiver</span></div>
+    </div>
+    <div class="spec-pill">
+      <div class="pill-icon">C</div>
+      <div class="pill-info"><strong>Type-C 接口</strong><span>充电 + 有线连接</span></div>
+    </div>
+  </div>
+  <div class="mode-section">
+    <h3>各产品连接模式一览</h3>
+    <table class="mode-table">
+      <thead>
+        <tr>
+          <th>产品型号</th>
+          <th>连接模式</th>
+          <th>蓝牙通道</th>
+          <th>类型</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>KB6AI 办公键盘</td><td>蓝牙 5.0 + 2.4G 无线</td><td>单通道</td><td><span class="badge badge-dual">双模</span></td></tr>
+        <tr><td>M4AI 对称鼠标</td><td>蓝牙 5.0 + 2.4G 无线</td><td>双通道</td><td><span class="badge badge-dual">双模</span></td></tr>
+        <tr><td>M5AI 人体工学鼠标</td><td>蓝牙 5.0 + 2.4G 无线</td><td>双通道</td><td><span class="badge badge-dual">双模</span></td></tr>
+        <tr><td>MK17AI 机械小键盘</td><td>蓝牙 5.0 + 2.4G + 有线</td><td>单通道</td><td><span class="badge badge-tri">三模</span></td></tr>
+        <tr><td>MK87AI 旗舰机械键盘</td><td>蓝牙 5.0 + 2.4G + 有线</td><td>三通道</td><td><span class="badge badge-tri">三模</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="slide-5" class="slide layout-keyboard-perf" aria-label="第 5 页">
+  <style scoped>
+    .slide {
+      width: 960px;
+      height: 540px;
+      background: linear-gradient(180deg, #1e1b4b 0%, #0f172a 100%);
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 50px 70px;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(99,102,241,0.2), transparent 70%);
+      border-radius: 50%;
+    }
+    .page-num {
+      position: absolute;
+      top: 30px;
+      right: 70px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+    }
+    .section-label {
+      font-size: 14px;
+      color: #818cf8;
+      font-weight: 600;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .main-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin: 0 0 28px 0;
+      position: relative;
+    }
+    .kb-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      position: relative;
+    }
+    .kb-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 24px;
+      backdrop-filter: blur(10px);
+    }
+    .kb-card:nth-child(1) { border-left: 4px solid #6366f1; }
+    .kb-card:nth-child(2) { border-left: 4px solid #f59e0b; }
+    .kb-card:nth-child(3) { border-left: 4px solid #10b981; }
+    .kb-name {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .kb-sub {
+      font-size: 12px;
+      color: #818cf8;
+      margin-bottom: 18px;
+    }
+    .spec-line {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-size: 13px;
+    }
+    .spec-line:last-child { border-bottom: none; }
+    .spec-line .label { color: #94a3b8; }
+    .spec-line .value { color: #fff; font-weight: 600; }
+    .highlight-box {
+      margin-top: 14px;
+      padding: 10px 14px;
+      background: rgba(99,102,241,0.15);
+      border-radius: 8px;
+      font-size: 12px;
+      color: #c7d2fe;
+      line-height: 1.6;
+    }
+  </style>
+  <div class="page-num">04 / 14</div>
+  <div class="section-label">CORE PERFORMANCE · KEYBOARDS</div>
+  <h2 class="main-title">核心性能 — 键盘类</h2>
+  <div class="kb-grid">
+    <div class="kb-card">
+      <div class="kb-name">KB6AI</div>
+      <div class="kb-sub">剪刀脚办公键盘</div>
+      <div class="spec-line"><span class="label">按键结构</span><span class="value">剪刀脚</span></div>
+      <div class="spec-line"><span class="label">按键数量</span><span class="value">96 键</span></div>
+      <div class="spec-line"><span class="label">回报率</span><span class="value">500Hz</span></div>
+      <div class="spec-line"><span class="label">响应速度</span><span class="value">2ms</span></div>
+      <div class="spec-line"><span class="label">智能键</span><span class="value">17 键</span></div>
+      <div class="highlight-box">轻薄便携，适合日常办公打字场景</div>
+    </div>
+    <div class="kb-card">
+      <div class="kb-name">MK17AI</div>
+      <div class="kb-sub">机械小键盘</div>
+      <div class="spec-line"><span class="label">轴体品牌</span><span class="value">九紫樱粉轴</span></div>
+      <div class="spec-line"><span class="label">按键寿命</span><span class="value">5000 万次</span></div>
+      <div class="spec-line"><span class="label">回报率</span><span class="value">500Hz</span></div>
+      <div class="spec-line"><span class="label">响应速度</span><span class="value">1ms</span></div>
+      <div class="spec-line"><span class="label">热插拔</span><span class="value">支持</span></div>
+      <div class="highlight-box">19 键紧凑布局，MDA 键帽，AI/数字双模式</div>
+    </div>
+    <div class="kb-card">
+      <div class="kb-name">MK87AI</div>
+      <div class="kb-sub">旗舰机械键盘</div>
+      <div class="spec-line"><span class="label">轴体品牌</span><span class="value">九紫烟雨轴</span></div>
+      <div class="spec-line"><span class="label">按键寿命</span><span class="value">5000 万次</span></div>
+      <div class="spec-line"><span class="label">回报率</span><span class="value">1000Hz</span></div>
+      <div class="spec-line"><span class="label">响应速度</span><span class="value">1ms</span></div>
+      <div class="spec-line"><span class="label">无冲/热插拔</span><span class="value">全键无冲/支持</span></div>
+      <div class="highlight-box">88 键 PBT 键帽，RGB 背光，电竞级性能</div>
+    </div>
+  </div>
+</section>
+
+<section id="slide-6" class="slide layout-mouse-perf" aria-label="第 6 页">
+  <style scoped>
+    .slide {
+      width: 960px;
+      height: 540px;
+      background: #f8fafc;
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #1e293b;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 50px 70px;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+    }
+    .page-num {
+      position: absolute;
+      top: 30px;
+      right: 70px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+    .section-label {
+      font-size: 14px;
+      color: #6366f1;
+      font-weight: 600;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+    .main-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin: 0 0 28px 0;
+      color: #0f172a;
+    }
+    .mouse-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .mouse-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      border: 1px solid #e2e8f0;
+      position: relative;
+      overflow: hidden;
+    }
+    .mouse-card:first-child { border-top: 4px solid #3b82f6; }
+    .mouse-card:last-child { border-top: 4px solid #ef4444; }
+    .mouse-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .mouse-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .mouse-type {
+      font-size: 13px;
+      color: #6366f1;
+      margin-top: 2px;
+    }
+    .mouse-badge {
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .badge-blue { background: #dbeafe; color: #2563eb; }
+    .badge-red { background: #fee2e2; color: #dc2626; }
+    .spec-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .spec-box {
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+    .spec-box .sb-label {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+    .spec-box .sb-value {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .dpi-bar {
+      margin-top: 8px;
+    }
+    .dpi-label {
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 8px;
+    }
+    .dpi-levels {
+      display: flex;
+      gap: 6px;
+    }
+    .dpi-level {
+      flex: 1;
+      padding: 6px 4px;
+      text-align: center;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .dpi-level.active { background: #6366f1; color: #fff; }
+    .dpi-level.inactive { background: #f1f5f9; color: #94a3b8; }
+    .extra-info {
+      display: flex;
+      gap: 16px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid #f1f5f9;
+      font-size: 12px;
+      color: #64748b;
+    }
+    .extra-info span strong { color: #334155; }
+  </style>
+  <div class="page-num">05 / 14</div>
+  <div class="section-label">CORE PERFORMANCE · MICE</div>
+  <h2 class="main-title">核心性能 — 鼠标类</h2>
+  <div class="mouse-container">
+    <div class="mouse-card">
+      <div class="mouse-header">
+        <div>
+          <div class="mouse-name">M4AI</div>
+          <div class="mouse-type">对称蓝光鼠标 · 左右手通用</div>
+        </div>
+        <div class="mouse-badge badge-blue">蓝光 LED</div>
+      </div>
+      <div class="spec-grid">
+        <div class="spec-box">
+          <div class="sb-label">传感器</div>
+          <div class="sb-value">原相 PAW3220</div>
+        </div>
+        <div class="spec-box">
+          <div class="sb-label">按键数</div>
+          <div class="sb-value">6 键</div>
+        </div>
+        <div class="spec-box">
+          <div class="sb-label">微动品牌</div>
+          <div class="sb-value">寰宇 / 500万次</div>
+        </div>
+        <div class="spec-box">
+          <div class="sb-label">净重</div>
+          <div class="sb-value">92g</div>
+        </div>
+      </div>
+      <div class="dpi-bar">
+        <div class="dpi-label">DPI 五档可调（800 – 4000）</div>
+        <div class="dpi-levels">
+          <div class="dpi-level active">800</div>
+          <div class="dpi-level active">1200</div>
+          <div class="dpi-level active">1600</div>
+          <div class="dpi-level active">2400</div>
+          <div class="dpi-level active">4000</div>
+        </div>
+      </div>
+      <div class="extra-info">
+        <span><strong>追踪：</strong>30 IPS / 10G</span>
+        <span><strong>回报率：</strong>BT 125Hz / 接收器 500Hz</span>
+      </div>
+    </div>
+    <div class="mouse-card">
+      <div class="mouse-header">
+        <div>
+          <div class="mouse-name">M5AI</div>
+          <div class="mouse-type">人体工学鼠标 · 垂直握感</div>
+        </div>
+        <div class="mouse-badge badge-red">红光 LED</div>
+      </div>
+      <div class="spec-grid">
+        <div class="spec-box">
+          <div class="sb-label">传感器</div>
+          <div class="sb-value">原相 PAW3212</div>
+        </div>
+        <div class="spec-box">
+          <div class="sb-label">按键数</div>
+          <div class="sb-value">7 键</div>
+        </div>
+        <div class="spec-box">
+          <div class="sb-label">微动品牌</div>
+          <div class="sb-value">凯华 / 300万次</div>
+        </div>
+        <div class="spec-box">
+          <div class="sb-label">净重</div>
+          <div class="sb-value">84g</div>
+        </div>
+      </div>
+      <div class="dpi-bar">
+        <div class="dpi-label">DPI 四档可调（800 – 2400）</div>
+        <div class="dpi-levels">
+          <div class="dpi-level active">800</div>
+          <div class="dpi-level active">1200</div>
+          <div class="dpi-level active">1600</div>
+          <div class="dpi-level active">2400</div>
+          <div class="dpi-level inactive">—</div>
+        </div>
+      </div>
+      <div class="extra-info">
+        <span><strong>追踪：</strong>30 IPS / 10G</span>
+        <span><strong>回报率：</strong>BT 125Hz / 接收器 500Hz</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="slide-7" class="slide layout-design" aria-label="第 7 页">
+  <style scoped>
+    .slide {
+      width: 960px;
+      height: 540px;
+      background: #0f172a;
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 50px 70px;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: linear-gradient(180deg, transparent, rgba(99,102,241,0.08));
+    }
+    .page-num {
+      position: absolute;
+      top: 30px;
+      right: 70px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+    }
+    .section-label {
+      font-size: 14px;
+      color: #818cf8;
+      font-weight: 600;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .main-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin: 0 0 24px 0;
+      position: relative;
+    }
+    .design-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      position: relative;
+      background: rgba(255,255,255,0.04);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .design-table th {
+      padding: 14px 16px;
+      text-align: left;
+      font-size: 13px;
+      color: #818cf8;
+      font-weight: 600;
+      background: rgba(99,102,241,0.1);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .design-table td {
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #cbd5e1;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .design-table tr:last-child td { border-bottom: none; }
+    .design-table td:first-child {
+      font-weight: 700;
+      color: #fff;
+    }
+    .material-bar {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      position: relative;
+    }
+    .material-item {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .mat-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .mat-info strong {
+      display: block;
+      font-size: 14px;
+      color: #fff;
+    }
+    .mat-info span {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+  </style>
+  <div class="page-num">06 / 14</div>
+  <div class="section-label">DESIGN & MATERIALS</div>
+  <h2 class="main-title">外观与材质</h2>
+  <table class="design-table">
+    <thead>
+      <tr>
+        <th>产品</th>
+        <th>尺寸规格</th>
+        <th>净重</th>
+        <th>外形</th>
+        <th>颜色</th>
+        <th>键帽</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>KB6AI</td><td>362 × 116 × 21 mm</td><td>—</td><td>剪刀脚薄型</td><td>—</td><td>—</td></tr>
+      <tr><td>M4AI</td><td>120 × 65 × 37 mm</td><td>92g</td><td>对称版</td><td>黑 / 白</td><td>—</td></tr>
+      <tr><td>M5AI</td><td>108 × 68 × 42 mm</td><td>84g</td><td>非对称（垂直）</td><td>黑 / 杏</td><td>—</td></tr>
+      <tr><td>MK17AI</td><td>133 × 90 × 40 mm</td><td>—</td><td>紧凑小键盘</td><td>—</td><td>MDA 键帽</td></tr>
+      <tr><td>MK87AI</td><td>364.7 × 138.3 × 39 mm</td><td>—</td><td>RGB 机械</td><td>—</td><td>PBT 键帽</td></tr>
+    </tbody>
+  </table>
+  <div class="material-bar">
+    <div class="material-item">
+      <div class="mat-icon">ABS</div>
+      <div class="mat-info"><strong>ABS 材质</strong><span>全系列表面材质</span></div>
+    </div>
+    <div class="material-item">
+      <div class="mat-icon">UPE</div>
+      <div class="mat-info"><strong>改性 UPE 脚贴</strong><span>耐磨顺滑底脚</span></div>
+    </div>
+    <div class="material-item">
+      <div class="mat-icon">麦</div>
+      <div class="mat-info"><strong>硅麦麦克风</strong><span>高品质语音拾音</span></div>
+    </div>
+    <div class="material-item">
+      <div class="mat-icon">RGB</div>
+      <div class="mat-info"><strong>RGB 背光</strong><span>MK87AI 灯效</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="slide-8" class="slide layout-battery" aria-label="第 8 页">
+  <style scoped>
+    .slide {
+      width: 960px;
+      height: 540px;
+      background: #f8fafc;
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #1e293b;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 50px 70px;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+    }
+    .page-num {
+      position: absolute;
+      top: 30px;
+      right: 70px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+    .section-label {
+      font-size: 14px;
+      color: #6366f1;
+      font-weight: 600;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+    .main-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin: 0 0 24px 0;
+      color: #0f172a;
+    }
+    .battery-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .bat-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 20px 16px;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      border: 1px solid #e2e8f0;
+      position: relative;
+    }
+    .bat-card:nth-child(-n+3) { border-top: 4px solid #10b981; }
+    .bat-card:nth-child(4) { border-top: 4px solid #3b82f6; }
+    .bat-card:nth-child(5) { border-top: 4px solid #f59e0b; }
+    .bat-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 12px;
+    }
+    .bat-days {
+      font-size: 32px;
+      font-weight: 800;
+      color: #10b981;
+      line-height: 1;
+    }
+    .bat-days span { font-size: 14px; color: #64748b; }
+    .bat-detail {
+      margin-top: 10px;
+      font-size: 11px;
+      color: #64748b;
+      line-height: 1.6;
+    }
+    .charge-bar {
+      background: #fff;
+      border-radius: 14px;
+      padding: 24px 28px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .charge-item {
+      text-align: center;
+      flex: 1;
+    }
+    .charge-item:not(:last-child) {
+      border-right: 1px solid #f1f5f9;
+    }
+    .charge-icon {
+      font-size: 24px;
+      margin-bottom: 6px;
+    }
+    .charge-val {
+      font-size: 18px;
+      font-weight: 800;
+      color: #4f46e5;
+    }
+    .charge-label {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+    .test-note {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+  </style>
+  <div class="page-num">07 / 14</div>
+  <div class="section-label">BATTERY & CHARGING</div>
+  <h2 class="main-title">续航与充电</h2>
+  <div class="battery-grid">
+    <div class="bat-card">
+      <div class="bat-name">KB6AI</div>
+      <div class="bat-days">30<span> 天</span></div>
+      <div class="bat-detail">602540—600<br>三元锂电池</div>
+    </div>
+    <div class="bat-card">
+      <div class="bat-name">MK17AI</div>
+      <div class="bat-days">30<span> 天</span></div>
+      <div class="bat-detail">602540—600<br>三元锂电池</div>
+    </div>
+    <div class="bat-card">
+      <div class="bat-name">MK87AI</div>
+      <div class="bat-days">30<span> 天</span></div>
+      <div class="bat-detail">602540—600<br>三元锂电池</div>
+    </div>
+    <div class="bat-card">
+      <div class="bat-name">M4AI</div>
+      <div class="bat-days" style="color:#3b82f6">20<span> 天</span></div>
+      <div class="bat-detail">600mAh<br>三元锂电池</div>
+    </div>
+    <div class="bat-card">
+      <div class="bat-name">M5AI</div>
+      <div class="bat-days" style="color:#f59e0b">15<span> 天</span></div>
+      <div class="bat-detail">480mAh<br>三元锂电池</div>
+    </div>
+  </div>
+  <div class="charge-bar">
+    <div class="charge-item">
+      <div class="charge-icon">🔋</div>
+      <div class="charge-val">5V / 1A</div>
+      <div class="charge-label">充电规格</div>
+    </div>
+    <div class="charge-item">
+      <div class="charge-icon">⏱</div>
+      <div class="charge-val">约 2 小时</div>
+      <div class="charge-label">充满时长</div>
+    </div>
+    <div class="charge-item">
+      <div class="charge-icon">🔌</div>
+      <div class="charge-val">Type-C</div>
+      <div class="charge-label">充电接口</div>
+    </div>
+    <div class="charge-item">
+      <div class="charge-icon">🛡</div>
+      <div class="charge-val">带保护板</div>
+      <div class="charge-label">电路保护</div>
+    </div>
+  </div>
+  <div class="test-note">* 续航数据基于咪鼠实验室测试，10 台样本，每天使用 8 小时工况</div>
+</section>
+
+<section id="slide-9" class="slide layout-keys" aria-label="第 8 页">
+  <style scoped>
+    .slide {
+      width: 960px;
+      height: 540px;
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 50px 70px;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: -80px;
+      left: -80px;
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(168,85,247,0.2), transparent 70%);
+      border-radius: 50%;
+    }
+    .page-num {
+      position: absolute;
+      top: 30px;
+      right: 70px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+    }
+    .section-label {
+      font-size: 14px;
+      color: #a78bfa;
+      font-weight: 600;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .main-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin: 0 0 28px 0;
+      position: relative;
+    }
+    .key-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      position: relative;
+    }
+    .key-section {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 24px;
+      backdrop-filter: blur(10px);
+    }
+    .key-section h3 {
+      font-size: 18px;
+      margin: 0 0 16px 0;
+      color: #c4b5fd;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .key-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .key-row:last-child { border-bottom: none; }
+    .key-num {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .key-info strong {
+      display: block;
+      font-size: 15px;
+      color: #fff;
+    }
+    .key-info span {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+    .ai-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      background: rgba(168,85,247,0.2);
+      border: 1px solid rgba(168,85,247,0.4);
+      border-radius: 4px;
+      font-size: 10px;
+      color: #c4b5fd;
+      margin-left: 6px;
+    }
+  </style>
+  <div class="page-num">08 / 14</div>
+  <div class="section-label">KEY LAYOUT</div>
+  <h2 class="main-title">按键布局与微动</h2>
+  <div class="key-layout">
+    <div class="key-section">
+      <h3>⌨️ 键盘类</h3>
+      <div class="key-row">
+        <div class="key-num">96</div>
+        <div class="key-info">
+          <strong>KB6AI <span class="ai-badge">智能 17 键</span></strong>
+          <span>剪刀脚结构 · 打字键 + AI 键 + 功能键</span>
+        </div>
+      </div>
+      <div class="key-row">
+        <div class="key-num">88</div>
+        <div class="key-info">
+          <strong>MK87AI <span class="ai-badge">智能 17 键</span></strong>
+          <span>九紫烟雨轴 · 全键无冲 · PBT 键帽</span>
+        </div>
+      </div>
+      <div class="key-row">
+        <div class="key-num">19</div>
+        <div class="key-info">
+          <strong>MK17AI <span class="ai-badge">智能 17 键</span></strong>
+          <span>九紫樱粉轴 · AI 键 / 数字键切换 · 热插拔</span>
+        </div>
+      </div>
+    </div>
+    <div class="key-section">
+      <h3>🖱️ 鼠标类</h3>
+      <div class="key-row">
+        <div class="key-num">6</div>
+        <div class="key-info">
+          <strong>M4AI</strong>
+          <span>左键 · 右键 · 语音键 · 翻译键 · 截图键 · AI 键</span>
+        </div>
+      </div>
+      <div class="key-row">
+        <div class="key-num" style="background:linear-gradient(135deg,#ec4899,#f59e0b)">7</div>
+        <div class="key-info">
+          <strong>M5AI</strong>
+          <span>左键 · 右键 · 语音键 · 翻译键 · 截图键 · AI 键 · 滚轮键</span>
+        </div>
+      </div>
+      <div class="key-row">
+        <div class="key-num" style="background:linear-gradient(135deg,#10b981,#06b6d4)">500<span style="font-size:10px">万</span></div>
+        <div class="key-info">
+          <strong>M4AI 微动寿命</strong>
+          <span>寰宇微动 · 触发力度 60±15g · 凯华编码器</span>
+        </div>
+      </div>
+      <div class="key-row">
+        <div class="key-num" style="background:linear-gradient(135deg,#10b981,#06b6d4)">300<span style="font-size:10px">万</span></div>
+        <div class="key-info">
+          <strong>M5AI 微动寿命</strong>
+          <span>凯华微动 · 触发力度 70±10g · 凯华编码器</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="slide-10" class="slide layout-ai-keys" aria-label="第 9 页">
+  <style scoped>
+    .slide {
+      width: 960px;
+      height: 540px;
+      background: #f8fafc;
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #1e293b;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 46px 70px;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+    }
+    .page-num {
+      position: absolute;
+      top: 30px;
+      right: 70px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+    .section-label {
+      font-size: 14px;
+      color: #6366f1;
+      font-weight: 600;
+      letter-spacing: 3px;
+      margin-bottom: 6px;
+    }
+    .main-title {
+      font-size: 34px;
+      font-weight: 800;
+      margin: 0 0 20px 0;
+      color: #0f172a;
+    }
+    .title-sub {
+      font-size: 14px;
+      color: #64748b;
+      margin: -16px 0 20px 0;
+    }
+    .ai-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+    }
+    .ai-key {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 8px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: all 0.2s;
+    }
+    .ai-key-icon {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+    .ai-key-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+    .ai-key-desc {
+      font-size: 10px;
+      color: #94a3b8;
+      line-height: 1.4;
+    }
+    .ai-key:nth-child(1) { border-top: 3px solid #6366f1; }
+    .ai-key:nth-child(2) { border-top: 3px solid #8b5cf6; }
+    .ai-key:nth-child(3) { border-top: 3px solid #ec4899; }
+    .ai-key:nth-child(4) { border-top: 3px solid #f59e0b; }
+    .ai-key:nth-child(5) { border-top: 3px solid #10b981; }
+    .ai-key:nth-child(6) { border-top: 3px solid #06b6d4; }
+    .ai-key:nth-child(7) { border-top: 3px solid #6366f1; }
+    .ai-key:nth-child(8) { border-top: 3px solid #8b5cf6; }
+    .ai-key:nth-child(9) { border-top: 3px solid #ec4899; }
+    .ai-key:nth-child(10) { border-top: 3px solid #f59e0b; }
+    .ai-key:nth-child(11) { border-top: 3px solid #10b981; }
+    .ai-key:nth-child(12) { border-top: 3px solid #06b6d4; }
+    .ai-key:nth-child(13) { border-top: 3px solid #6366f1; }
+    .ai-key:nth-child(14) { border-top: 3px solid #8b5cf6; }
+    .ai-key:nth-child(15) { border-top: 3px solid #ec4899; }
+    .ai-key:nth-child(16) { border-top: 3px solid #f59e0b; }
+    .ai-key:nth-child(17) { border-top: 3px solid #10b981; }
+    .tip-bar {
+      margin-top: 18px;
+      padding: 14px 24px;
+      background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+      border-radius: 12px;
+      font-size: 13px;
+      color: #4f46e5;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .tip-bar strong { color: #4338ca; }
+  </style>
+  <div class="page-num">09 / 14</div>
+  <div class="section-label">AI SMART KEYS</div>
+  <h2 class="main-title">17 键 AI 功能矩阵</h2>
+  <p class="title-sub">一键启动 · 短按进入界面 · 长按语音直达</p>
+  <div class="ai-grid">
+    <div class="ai-key">
+      <div class="ai-key-icon">🔄</div>
+      <div class="ai-key-name">AI 切换</div>
+      <div class="ai-key-desc">AI / 普通模式</div>
+    </div>
+    <div class="ai-key">
+      <div class="ai-key-icon">📸</div>
+      <div class="ai-key-name">截图取字</div>
+      <div class="ai-key-desc">智能截图提取</div>
+    </div>
+    <div class="ai-key">
+      <div class="ai-key-icon">🎨</div>
+      <div class="ai-key-name">AI 绘图</div>
+      <div class="ai-key-desc">长按语音绘图</div>
+    </div>
+    <div class="ai-key">
+      <div class="ai-key-icon">🌐</div>
+      <div class="ai-key-name">翻译</div>
+      <div class="ai-key-desc">划词 / 语音翻译</div>
+    </div>
+    <div class="ai-key">
+      <div class="ai-key-icon">🧠</div>
+      <div class="ai-key-name">思维导图</div>
+      <div class="ai-key-desc">语音生成导图</div>
+    </div>
+    <div class="ai-key">
+      <div class="ai-key-icon">✓</div>
+      <div class="ai-key-name">文稿校对</div>
+      <div class="ai-key-desc">智能校对纠错</div>
+    </div>
+    <div class="ai-key">
+      <div class="ai-key-icon">📖</div>
+      <div class="ai-key-name">阅读理解</div>
+      <div class="ai-key-desc">AI 深度阅读</div>
+    </div>
+    <div class="ai-key">
+      <div class="ai-key-icon">📊</div>
+      <div class="ai-key-name">PPT</div>
+      <div class="ai-key-desc">语音生成 PPT</div>
+    </div>
+    <div class="ai-key">
+      <div class="ai-key-icon">💡</div>
+      <div class="ai-key-name">心得体会</div>
+      <div class="ai-key-desc">语音生成心得</div>
+    </div>
+    <div class="ai-key">
+      <div class="ai-key-icon">📝</div>
+      <div class="ai-key-name">工作总结</div>
+      <div class="ai-key-desc">语音生成总结</div>
+    </div>
+    <div class="ai-key">
+      <div class="ai-key-icon">📥</div>
+      <div class="ai-key-name">模板下载</div>
+      <div class="ai-key-desc">1万+ 模板</div>
+    </div>
+    <div class="ai-key">
+      <div class="ai-key-icon">✍</div>
+      <div class="ai-key-name">写作</div>
+      <div class="ai-key-desc">语音生成内容</div>
+    </div>
+    <div class="ai-key">
+      <div class="ai-key-icon">📄</div>
+      <div class="ai-key-name">长文写作</div>
+      <div class="ai-key-desc">语音生成长文</div>
+    </div>
+    <div class="ai-key">
+      <div class="ai-key-icon">📋</div>
+      <div class="ai-key-name">项目方案</div>
+      <div class="ai-key-desc">语音生成方案</div>
+    </div>
+    <div class="ai-key">
+      <div class="ai-key-icon">🧭</div>
+      <div class="ai-key-name">上网导航</div>
+      <div class="ai-key-desc">快捷导航入口</div>
+    </div>
+    <div class="ai-key">
+      <div class="ai-key-icon">💬</div>
+      <div class="ai-key-name">AI 问答</div>
+      <div class="ai-key-desc">语音直接问答</div>
+    </div>
+    <div class="ai-key">
+      <div class="ai-key-icon">🎤</div>
+      <div class="ai-key-name">语音打字</div>
+      <div class="ai-key-desc">语音输入控制</div>
+    </div>
+  </div>
+  <div class="tip-bar">
+    <span>💡</span>
+    <span><strong>操作逻辑：</strong>短按进入对应功能界面 · 长按直接说话生成内容 · 全系 17 个智能按键一键启动 AI</span>
+  </div>
+</section>
+
+<section id="slide-11" class="slide layout-models" aria-label="第 10 页">
+  <style scoped>
+    .slide {
+      width: 960px;
+      height: 540px;
+      background: #0f172a;
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 50px 70px;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 100%;
+      background: radial-gradient(ellipse at center right, rgba(99,102,241,0.12), transparent 60%);
+    }
+    .page-num {
+      position: absolute;
+      top: 30px;
+      right: 70px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+    }
+    .section-label {
+      font-size: 14px;
+      color: #818cf8;
+      font-weight: 600;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .main-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin: 0 0 8px 0;
+      position: relative;
+    }
+    .title-sub {
+      font-size: 15px;
+      color: #94a3b8;
+      margin: 0 0 28px 0;
+      position: relative;
+    }
+    .model-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      position: relative;
+    }
+    .model-section {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 24px;
+      backdrop-filter: blur(10px);
+    }
+    .model-section h3 {
+      font-size: 16px;
+      margin: 0 0 16px 0;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .model-section.core h3 { color: #818cf8; }
+    .model-section.thinking h3 { color: #c4b5fd; }
+    .model-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .model-tag {
+      padding: 8px 14px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      font-size: 13px;
+      color: #e2e8f0;
+    }
+    .model-section.core .model-tag {
+      border-left: 3px solid #6366f1;
+    }
+    .model-section.thinking .model-tag {
+      border-left: 3px solid #a855f7;
+    }
+    .free-banner {
+      margin-top: 20px;
+      padding: 16px 24px;
+      background: linear-gradient(90deg, rgba(99,102,241,0.2), rgba(168,85,247,0.2));
+      border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+    }
+    .free-icon {
+      font-size: 28px;
+    }
+    .free-text strong {
+      display: block;
+      font-size: 16px;
+      color: #fff;
+    }
+    .free-text span {
+      font-size: 13px;
+      color: #c7d2fe;
+    }
+  </style>
+  <div class="page-num">10 / 14</div>
+  <div class="section-label">AI MODELS</div>
+  <h2 class="main-title">14 种先进 AI 大模型</h2>
+  <p class="title-sub">全系产品免费使用 · 覆盖核心模型与深度思考模型</p>
+  <div class="model-container">
+    <div class="model-section core">
+      <h3>⚡ 核心模型（6 种）</h3>
+      <div class="model-list">
+        <span class="model-tag">千问-plus</span>
+        <span class="model-tag">豆包-seed-1.8</span>
+        <span class="model-tag">Deepseek-v3.2</span>
+        <span class="model-tag">百度-4.5-turbo</span>
+        <span class="model-tag">腾讯混元-turbos</span>
+        <span class="model-tag">MiniMax-Text</span>
+      </div>
+    </div>
+    <div class="model-section thinking">
+      <h3>🧠 深度思考模型（8 种）</h3>
+      <div class="model-list">
+        <span class="model-tag">百度-x1-turbo</span>
+        <span class="model-tag">千问-plus-thinking</span>
+        <span class="model-tag">豆包-seed-1.8-thinking</span>
+        <span class="model-tag">MiniMax-M2.1</span>
+        <span class="model-tag">混元-t1</span>
+        <span class="model-tag">讯飞-X1.5</span>
+        <span class="model-tag">Deepseek-r1</span>
+        <span class="model-tag">Deepseek-v3.2-thinking</span>
+      </div>
+    </div>
+  </div>
+  <div class="free-banner">
+    <div class="free-icon">🎁</div>
+    <div class="free-text">
+      <strong>14 种 AI 模型全部免费使用</strong>
+      <span>AIPPT、AI 绘图、AI 视频、AI 翻译（200 种语言）不限次数、免费用</span>
+    </div>
+  </div>
+</section>
+
+<section id="slide-12" class="slide layout-voice" aria-label="第 11 页">
+  <style scoped>
+    .slide {
+      width: 960px;
+      height: 540px;
+      background: #f8fafc;
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #1e293b;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 50px 70px;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+    }
+    .page-num {
+      position: absolute;
+      top: 30px;
+      right: 70px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+    .section-label {
+      font-size: 14px;
+      color: #6366f1;
+      font-weight: 600;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+    .main-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin: 0 0 24px 0;
+      color: #0f172a;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .hero-card {
+      flex: 1;
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      border: 1px solid #e2e8f0;
+      text-align: center;
+    }
+    .hero-card:first-child { border-top: 4px solid #6366f1; }
+    .hero-card:nth-child(2) { border-top: 4px solid #8b5cf6; }
+    .hero-card:nth-child(3) { border-top: 4px solid #ec4899; }
+    .hero-num {
+      font-size: 40px;
+      font-weight: 800;
+      color: #4f46e5;
+      line-height: 1;
+    }
+    .hero-num span { font-size: 16px; color: #64748b; }
+    .hero-label {
+      font-size: 14px;
+      color: #475569;
+      margin-top: 8px;
+    }
+    .lang-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+    }
+    .lang-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      border: 1px solid #e2e8f0;
+    }
+    .lang-card h4 {
+      font-size: 15px;
+      margin: 0 0 12px 0;
+      color: #4f46e5;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .lang-card h4 .count {
+      padding: 2px 8px;
+      background: #eef2ff;
+      border-radius: 6px;
+      font-size: 12px;
+    }
+    .lang-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .lang-tag {
+      padding: 3px 8px;
+      background: #f1f5f9;
+      border-radius: 5px;
+      font-size: 11px;
+      color: #475569;
+    }
+  </style>
+  <div class="page-num">11 / 14</div>
+  <div class="section-label">VOICE CAPABILITIES</div>
+  <h2 class="main-title">语音能力：打字与翻译</h2>
+  <div class="hero-stats">
+    <div class="hero-card">
+      <div class="hero-num">400<span> 字/分钟</span></div>
+      <div class="hero-label">语音打字速度</div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-num">98<span>%</span></div>
+      <div class="hero-label">普通话识别准确率</div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-num">200<span> 种</span></div>
+      <div class="hero-label">语言互译</div>
+    </div>
+  </div>
+  <div class="lang-section">
+    <div class="lang-card">
+      <h4>🗣 22 种方言 <span class="count">22</span></h4>
+      <div class="lang-tags">
+        <span class="lang-tag">四川话</span><span class="lang-tag">河南话</span>
+        <span class="lang-tag">粤语</span><span class="lang-tag">粤语繁体</span>
+        <span class="lang-tag">湖北话</span><span class="lang-tag">上海话</span>
+        <span class="lang-tag">湖南话</span><span class="lang-tag">浙江话</span>
+        <span class="lang-tag">东北话</span><span class="lang-tag">山东话</span>
+        <span class="lang-tag">天津话</span><span class="lang-tag">陕西话</span>
+        <span class="lang-tag">山西话</span><span class="lang-tag">贵州话</span>
+        <span class="lang-tag">云南话</span><span class="lang-tag">甘肃话</span>
+        <span class="lang-tag">维吾尔语</span><span class="lang-tag">苏州话</span>
+        <span class="lang-tag">闽南语</span><span class="lang-tag">江西话</span>
+        <span class="lang-tag">宁夏话</span><span class="lang-tag">广西话</span>
+      </div>
+    </div>
+    <div class="lang-card">
+      <h4>🌍 20 种外语 <span class="count">20</span></h4>
+      <div class="lang-tags">
+        <span class="lang-tag">英语</span><span class="lang-tag">日语</span>
+        <span class="lang-tag">韩语</span><span class="lang-tag">法语</span>
+        <span class="lang-tag">德语</span><span class="lang-tag">俄语</span>
+        <span class="lang-tag">西班牙语</span><span class="lang-tag">阿拉伯语</span>
+        <span class="lang-tag">泰语</span><span class="lang-tag">印尼语</span>
+        <span class="lang-tag">越南语</span><span class="lang-tag">意大利语</span>
+        <span class="lang-tag">印地语</span><span class="lang-tag">马来语</span>
+        <span class="lang-tag">菲律宾语</span><span class="lang-tag">葡萄牙语</span>
+        <span class="lang-tag">土耳其语</span><span class="lang-tag">波兰语</span>
+        <span class="lang-tag">乌克兰语</span><span class="lang-tag">荷兰语</span>
+      </div>
+    </div>
+    <div class="lang-card">
+      <h4>🌐 语音翻译 <span class="count">200+</span></h4>
+      <div class="lang-tags">
+        <span class="lang-tag">英语</span><span class="lang-tag">日语</span>
+        <span class="lang-tag">韩语</span><span class="lang-tag">法语</span>
+        <span class="lang-tag">德语</span><span class="lang-tag">俄语</span>
+        <span class="lang-tag">西班牙语</span><span class="lang-tag">阿拉伯语</span>
+        <span class="lang-tag">泰语</span><span class="lang-tag">印尼语</span>
+        <span class="lang-tag">越南语</span><span class="lang-tag">意大利语</span>
+        <span class="lang-tag">印地语</span><span class="lang-tag">马来语</span>
+        <span class="lang-tag">菲律宾语</span><span class="lang-tag">葡萄牙语</span>
+        <span class="lang-tag">土耳其语</span><span class="lang-tag">波兰语</span>
+        <span class="lang-tag">乌克兰语</span><span class="lang-tag">荷兰语</span>
+        <span class="lang-tag">...等200种</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="slide-13" class="slide layout-selling-points" aria-label="第 12 页">
+  <style scoped>
+    .slide {
+      width: 960px;
+      height: 540px;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1f4e 50%, #2d1b69 100%);
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 50px 70px;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(168,85,247,0.15), transparent 70%);
+      border-radius: 50%;
+    }
+    .page-num {
+      position: absolute;
+      top: 30px;
+      right: 70px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+    }
+    .section-label {
+      font-size: 14px;
+      color: #818cf8;
+      font-weight: 600;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .main-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin: 0 0 28px 0;
+      position: relative;
+    }
+    .points-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      position: relative;
+    }
+    .point-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 20px 16px;
+      backdrop-filter: blur(10px);
+      text-align: center;
+    }
+    .point-card:nth-child(1) { border-top: 3px solid #6366f1; }
+    .point-card:nth-child(2) { border-top: 3px solid #8b5cf6; }
+    .point-card:nth-child(3) { border-top: 3px solid #ec4899; }
+    .point-card:nth-child(4) { border-top: 3px solid #f59e0b; }
+    .point-card:nth-child(5) { border-top: 3px solid #10b981; }
+    .point-card:nth-child(6) { border-top: 3px solid #06b6d4; }
+    .point-card:nth-child(7) { border-top: 3px solid #6366f1; }
+    .point-card:nth-child(8) { border-top: 3px solid #a855f7; }
+    .point-icon {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    .point-num {
+      font-size: 24px;
+      font-weight: 800;
+      color: #818cf8;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .point-num span { font-size: 13px; color: #94a3b8; }
+    .point-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .point-desc {
+      font-size: 11px;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+  </style>
+  <div class="page-num">12 / 14</div>
+  <div class="section-label">CORE SELLING POINTS</div>
+  <h2 class="main-title">核心卖点：产品价值主张</h2>
+  <div class="points-grid">
+    <div class="point-card">
+      <div class="point-icon">🤖</div>
+      <div class="point-num">14<span> 种</span></div>
+      <div class="point-title">AI 模型免费</div>
+      <div class="point-desc">先进大模型免费用</div>
+    </div>
+    <div class="point-card">
+      <div class="point-icon">⚡</div>
+      <div class="point-num">100<span> +</span></div>
+      <div class="point-title">AI 功能</div>
+      <div class="point-desc">视频/绘图/PPT/写作等</div>
+    </div>
+    <div class="point-card">
+      <div class="point-icon">♾</div>
+      <div class="point-num">不限次</div>
+      <div class="point-title">核心功能免费</div>
+      <div class="point-desc">PPT/绘图/视频/翻译</div>
+    </div>
+    <div class="point-card">
+      <div class="point-icon">📖</div>
+      <div class="point-num">10万<span>字</span></div>
+      <div class="point-title">AI 阅读</div>
+      <div class="point-desc">+2G 音视频转写</div>
+    </div>
+    <div class="point-card">
+      <div class="point-icon">🎙</div>
+      <div class="point-num">不限时</div>
+      <div class="point-title">AI 会议</div>
+      <div class="point-desc">会议记录不限时长</div>
+    </div>
+    <div class="point-card">
+      <div class="point-icon">📥</div>
+      <div class="point-num">1万<span> +</span></div>
+      <div class="point-title">模板下载</div>
+      <div class="point-desc">免费模板使用</div>
+    </div>
+    <div class="point-card">
+      <div class="point-icon">🎯</div>
+      <div class="point-num">17<span> 键</span></div>
+      <div class="point-title">一键启动 AI</div>
+      <div class="point-desc">智能按键直达</div>
+    </div>
+    <div class="point-card">
+      <div class="point-icon">🏆</div>
+      <div class="point-num">11<span> 年</span></div>
+      <div class="point-title">专注原创</div>
+      <div class="point-desc">AI 键鼠原创者</div>
+    </div>
+  </div>
+</section>
+
+<section id="slide-14" class="slide layout-service" aria-label="第 13 页">
+  <style scoped>
+    .slide {
+      width: 960px;
+      height: 540px;
+      background: #f8fafc;
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #1e293b;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 50px 70px;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+    }
+    .page-num {
+      position: absolute;
+      top: 30px;
+      right: 70px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+    .section-label {
+      font-size: 14px;
+      color: #6366f1;
+      font-weight: 600;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+    .main-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin: 0 0 28px 0;
+      color: #0f172a;
+    }
+    .service-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .service-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      border: 1px solid #e2e8f0;
+    }
+    .service-card h3 {
+      font-size: 20px;
+      margin: 0 0 20px 0;
+      color: #4f46e5;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .service-card h3::before {
+      content: "";
+      width: 4px;
+      height: 22px;
+      background: linear-gradient(180deg, #6366f1, #a855f7);
+      border-radius: 2px;
+    }
+    .compat-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .compat-block {
+      flex: 1;
+      min-width: 140px;
+      padding: 16px;
+      background: linear-gradient(135deg, #f5f3ff, #eef2ff);
+      border-radius: 12px;
+      text-align: center;
+    }
+    .compat-block strong {
+      display: block;
+      font-size: 15px;
+      color: #4f46e5;
+      margin-bottom: 4px;
+    }
+    .compat-block span {
+      font-size: 12px;
+      color: #64748b;
+    }
+    .warranty-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .warranty-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      background: #f8fafc;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+    }
+    .warranty-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .warranty-info strong {
+      display: block;
+      font-size: 14px;
+      color: #0f172a;
+    }
+    .warranty-info span {
+      font-size: 12px;
+      color: #64748b;
+    }
+  </style>
+  <div class="page-num">13 / 14</div>
+  <div class="section-label">COMPATIBILITY & SERVICE</div>
+  <h2 class="main-title">兼容与售后保障</h2>
+  <div class="service-grid">
+    <div class="service-card">
+      <h3>全系统兼容</h3>
+      <div class="compat-row">
+        <div class="compat-block">
+          <strong>微软系统</strong>
+          <span>Windows 7/8/10/11</span>
+        </div>
+        <div class="compat-block">
+          <strong>苹果系统</strong>
+          <span>macOS 10.15+</span>
+        </div>
+      </div>
+      <div class="compat-row">
+        <div class="compat-block">
+          <strong>国产系统</strong>
+          <span>UOS / 麒麟 / Deepin 等</span>
+        </div>
+        <div class="compat-block">
+          <strong>国际版</strong>
+          <span>Ubuntu 等主流系统</span>
+        </div>
+      </div>
+    </div>
+    <div class="service-card">
+      <h3>售后保障</h3>
+      <div class="warranty-list">
+        <div class="warranty-item">
+          <div class="warranty-icon">7</div>
+          <div class="warranty-info"><strong>7 天无理由</strong><span>退货保障</span></div>
+        </div>
+        <div class="warranty-item">
+          <div class="warranty-icon">1</div>
+          <div class="warranty-info"><strong>一年只换不修</strong><span>质量问题换新</span></div>
+        </div>
+        <div class="warranty-item">
+          <div class="warranty-icon">🚚</div>
+          <div class="warranty-info"><strong>赠送运费险</strong><span>退换无忧</span></div>
+        </div>
+        <div class="warranty-item">
+          <div class="warranty-icon">📚</div>
+          <div class="warranty-info"><strong>包教包会</strong><span>人工客服指导</span></div>
+        </div>
+        <div class="warranty-item" style="grid-column: span 2;">
+          <div class="warranty-icon">🕐</div>
+          <div class="warranty-info"><strong>人工客服 8:00–23:00</strong><span>全年全天候在线服务</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="slide-15" class="slide layout-guide" aria-label="第 14 页">
+  <style scoped>
+    .slide {
+      width: 960px;
+      height: 540px;
+      background: linear-gradient(180deg, #1e1b4b 0%, #0f172a 100%);
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 50px 70px;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      bottom: -100px;
+      right: -100px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(99,102,241,0.15), transparent 70%);
+      border-radius: 50%;
+    }
+    .page-num {
+      position: absolute;
+      top: 30px;
+      right: 70px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+    }
+    .section-label {
+      font-size: 14px;
+      color: #818cf8;
+      font-weight: 600;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .main-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin: 0 0 28px 0;
+      position: relative;
+    }
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+      position: relative;
+      margin-bottom: 28px;
+    }
+    .guide-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 22px 16px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+    .guide-card:nth-child(1) { border-top: 3px solid #6366f1; }
+    .guide-card:nth-child(2) { border-top: 3px solid #10b981; }
+    .guide-card:nth-child(3) { border-top: 3px solid #f59e0b; }
+    .guide-card:nth-child(4) { border-top: 3px solid #ec4899; }
+    .guide-card:nth-child(5) { border-top: 3px solid #06b6d4; }
+    .guide-icon { font-size: 30px; margin-bottom: 10px; }
+    .guide-name { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .guide-scene {
+      font-size: 12px;
+      color: #818cf8;
+      margin-bottom: 10px;
+      padding: 4px 10px;
+      background: rgba(99,102,241,0.15);
+      border-radius: 6px;
+      display: inline-block;
+    }
+    .guide-desc {
+      font-size: 11px;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+    .contact-bar {
+      padding: 24px 32px;
+      background: linear-gradient(90deg, rgba(99,102,241,0.15), rgba(168,85,247,0.15));
+      border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+    .contact-left strong {
+      display: block;
+      font-size: 22px;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .contact-left span {
+      font-size: 14px;
+      color: #c7d2fe;
+    }
+    .contact-right {
+      text-align: right;
+    }
+    .contact-right strong {
+      display: block;
+      font-size: 16px;
+      color: #818cf8;
+    }
+    .contact-right span {
+      font-size: 13px;
+      color: #94a3b8;
+    }
+  </style>
+  <div class="page-num">14 / 14</div>
+  <div class="section-label">BUYING GUIDE & CONTACT</div>
+  <h2 class="main-title">对比与选购指南</h2>
+  <div class="guide-grid">
+    <div class="guide-card">
+      <div class="guide-icon">⌨️</div>
+      <div class="guide-name">KB6AI</div>
+      <div class="guide-scene">办公便携</div>
+      <div class="guide-desc">剪刀脚轻薄设计<br>适合日常办公打字</div>
+    </div>
+    <div class="guide-card">
+      <div class="guide-icon">🔢</div>
+      <div class="guide-name">MK17AI</div>
+      <div class="guide-scene">数字辅助</div>
+      <div class="guide-desc">19键机械小键盘<br>财务/数据好帮手</div>
+    </div>
+    <div class="guide-card">
+      <div class="guide-icon">🎮</div>
+      <div class="guide-name">MK87AI</div>
+      <div class="guide-scene">游戏电竞</div>
+      <div class="guide-desc">RGB全键无冲<br>1000Hz电竞级性能</div>
+    </div>
+    <div class="guide-card">
+      <div class="guide-icon">🖱️</div>
+      <div class="guide-name">M4AI</div>
+      <div class="guide-scene">左右手通用</div>
+      <div class="guide-desc">对称设计蓝光<br>4000DPI五档可调</div>
+    </div>
+    <div class="guide-card">
+      <div class="guide-icon">✋</div>
+      <div class="guide-name">M5AI</div>
+      <div class="guide-scene">人体工学</div>
+      <div class="guide-desc">垂直握感红光<br>静音按键护手</div>
+    </div>
+  </div>
+  <div class="contact-bar">
+    <div class="contact-left">
+      <strong>MiMouse 咪鼠</strong>
+      <span>AI 键鼠原创者 · 智能键鼠 11 年</span>
+    </div>
+    <div class="contact-right">
+      <strong>欢迎垂询</strong>
+      <span>人工客服 8:00 – 23:00</span>
+    </div>
+  </div>
+</section>

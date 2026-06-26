@@ -1,0 +1,1248 @@
+[
+    {
+        "slide_id": "s1",
+        "role": "generic",
+        "brief": "主标题:《龟兔赛跑》小学语文教案；副标题:授课教师/班级/课时信息栏；背景图建议采用卡通森林或龟兔形象，营造轻松课堂氛围。",
+        "slots": [
+            {
+                "shape_id": "s1_sh2",
+                "role": "other",
+                "type": "text",
+                "current_text": "工作总结汇报",
+                "editable": true
+            },
+            {
+                "shape_id": "s1_sh3",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s1_sh4",
+                "role": "other",
+                "type": "text",
+                "current_text": "汇报人：×××",
+                "editable": true
+            },
+            {
+                "shape_id": "s1_sh5",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s1_sh6",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s1_sh7",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s1_sh8",
+                "role": "other",
+                "type": "text",
+                "current_text": "2025年第三季度",
+                "editable": true
+            },
+            {
+                "shape_id": "s1_sh9",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s1_sh13",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s1_sh14",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s1_sh15",
+                "role": "other",
+                "type": "text",
+                "current_text": "专\\n注\\nAI\ \\n探\\n索未\\n来",
+                "editable": true
+            }
+        ]
+    },
+    {
+        "slide_id": "s2",
+        "role": "toc",
+        "brief": "目录页列出5个核心板块：一、教学目标；二、教学重难点；三、教学过程；四、课后作业；五、板书设计。",
+        "slots": [
+            {
+                "shape_id": "s2_sh2",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh3",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh4",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh5",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh6",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh7",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh8",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh9",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh10",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh11",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh12",
+                "role": "other",
+                "type": "text",
+                "current_text": "01",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh13",
+                "role": "other",
+                "type": "text",
+                "current_text": "三季度工作完成情况",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh14",
+                "role": "other",
+                "type": "text",
+                "current_text": "Q3 Progress Summary",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh16",
+                "role": "other",
+                "type": "text",
+                "current_text": "目录",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh17",
+                "role": "other",
+                "type": "text",
+                "current_text": "CONTENTS",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh19",
+                "role": "other",
+                "type": "text",
+                "current_text": "创新与成长",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh20",
+                "role": "other",
+                "type": "text",
+                "current_text": "Technological innovation and growth",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh22",
+                "role": "other",
+                "type": "text",
+                "current_text": "想法和建议",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh23",
+                "role": "other",
+                "type": "text",
+                "current_text": "Ideas and suggestions",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh25",
+                "role": "other",
+                "type": "text",
+                "current_text": "存在主要问题",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh26",
+                "role": "other",
+                "type": "text",
+                "current_text": "There are major problem",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh28",
+                "role": "other",
+                "type": "text",
+                "current_text": "02",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh29",
+                "role": "other",
+                "type": "text",
+                "current_text": "05",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh30",
+                "role": "other",
+                "type": "text",
+                "current_text": "03",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh33",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh34",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh35",
+                "role": "other",
+                "type": "text",
+                "current_text": "04",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh36",
+                "role": "other",
+                "type": "text",
+                "current_text": "Q4 Strategic Roadmap",
+                "editable": true
+            },
+            {
+                "shape_id": "s2_sh37",
+                "role": "other",
+                "type": "text",
+                "current_text": "四季度工作规划",
+                "editable": true
+            }
+        ]
+    },
+    {
+        "slide_id": "s3",
+        "role": "generic",
+        "brief": "教学目标页：列出4项具体目标，包括认写“兔、跑”等生字，流利朗读课文，复述故事经过，以及体会“骄傲使人落后”的道理。",
+        "slots": [
+            {
+                "shape_id": "s3_sh2",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s3_sh3",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s3_sh4",
+                "role": "other",
+                "type": "text",
+                "current_text": "三季度工作完成情况",
+                "editable": true
+            }
+        ]
+    },
+    {
+        "slide_id": "s4",
+        "role": "generic",
+        "brief": "教学重难点页：重点为识字写字及分角色朗读理解内容；难点为体会龟兔心理变化及领悟故事深刻寓意，需通过对比分析突破。",
+        "slots": [
+            {
+                "shape_id": "s4_sh3",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s4_sh4",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s4_sh5",
+                "role": "other",
+                "type": "text",
+                "current_text": "标题名称",
+                "editable": true
+            },
+            {
+                "shape_id": "s4_sh6",
+                "role": "other",
+                "type": "text",
+                "current_text": "文字内容",
+                "editable": true
+            },
+            {
+                "shape_id": "s4_sh7",
+                "role": "other",
+                "type": "text",
+                "current_text": "标题名称",
+                "editable": true
+            },
+            {
+                "shape_id": "s4_sh8",
+                "role": "other",
+                "type": "text",
+                "current_text": "文字内容",
+                "editable": true
+            },
+            {
+                "shape_id": "s4_sh9",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s4_sh10",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s4_sh11",
+                "role": "other",
+                "type": "text",
+                "current_text": "1.文字说明。。。。。。。。。\\n2.文字说明。。。。。。。。。。。。\\n3.文字说明。。。。。。。。。\\n4.文字说明。。。。。。。。。。。。\\n5.文字说明。。。。。。。。。。",
+                "editable": true
+            },
+            {
+                "shape_id": "s4_sh12",
+                "role": "other",
+                "type": "text",
+                "current_text": "创新与成长",
+                "editable": true
+            }
+        ]
+    },
+    {
+        "slide_id": "s5",
+        "role": "generic",
+        "brief": "导入新课环节：通过“头小四腿长”谜语激发兴趣，播放动画短片引入课题，板书《龟兔赛跑》并简介《伊索寓言》出处。",
+        "slots": [
+            {
+                "shape_id": "s5_sh2",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh3",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh4",
+                "role": "other",
+                "type": "text",
+                "current_text": "存在主要问题",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh6",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh7",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh8",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh9",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh10",
+                "role": "other",
+                "type": "text",
+                "current_text": "标题名称1",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh11",
+                "role": "other",
+                "type": "text",
+                "current_text": "文字。",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh12",
+                "role": "other",
+                "type": "text",
+                "current_text": "标题名称2",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh13",
+                "role": "other",
+                "type": "text",
+                "current_text": "文字。",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh14",
+                "role": "other",
+                "type": "text",
+                "current_text": "标题名称3",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh15",
+                "role": "other",
+                "type": "text",
+                "current_text": "文字。",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh16",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh17",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh18",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh19",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            }
+        ]
+    },
+    {
+        "slide_id": "s6",
+        "role": "generic",
+        "brief": "初读课文环节：学生自由朗读圈画生字，教师范读正音，重点学习“兔、围、赛”等9个生字，通过开火车读检查掌握情况。",
+        "slots": [
+            {
+                "shape_id": "s6_sh2",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh3",
+                "role": "other",
+                "type": "text",
+                "current_text": "四季度工作规划",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh5",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh6",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh7",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh8",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh9",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh10",
+                "role": "other",
+                "type": "text",
+                "current_text": "标题名称1",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh11",
+                "role": "other",
+                "type": "text",
+                "current_text": "文字",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh12",
+                "role": "other",
+                "type": "text",
+                "current_text": "标题名称2",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh13",
+                "role": "other",
+                "type": "text",
+                "current_text": "文字",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh14",
+                "role": "other",
+                "type": "text",
+                "current_text": "标题名称3",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh15",
+                "role": "other",
+                "type": "text",
+                "current_text": "文字",
+                "editable": true
+            }
+        ]
+    },
+    {
+        "slide_id": "s7",
+        "role": "generic",
+        "brief": "精读理解环节：分段解析比赛过程，对比兔子“得意睡觉”与乌龟“坚持爬行”，抓住关键词句体会角色性格差异及情节转折。",
+        "slots": [
+            {
+                "shape_id": "s7_sh1",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh2",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh4",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh5",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh6",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh7",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh8",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh9",
+                "role": "other",
+                "type": "text",
+                "current_text": "标题名称",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh10",
+                "role": "other",
+                "type": "text",
+                "current_text": "文字说明。",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh12",
+                "role": "other",
+                "type": "text",
+                "current_text": "标题名称",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh13",
+                "role": "other",
+                "type": "text",
+                "current_text": "文字说明。",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh15",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh16",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh17",
+                "role": "other",
+                "type": "text",
+                "current_text": "想法和建议",
+                "editable": true
+            }
+        ]
+    },
+    {
+        "slide_id": "s3",
+        "role": "generic",
+        "brief": "朗读指导环节：指导读出兔子骄傲与乌龟坚持的语气，开展旁白、兔子、乌龟分角色朗读，组织小组课本剧表演以深化体验。",
+        "slots": [
+            {
+                "shape_id": "s3_sh2",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s3_sh3",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s3_sh4",
+                "role": "other",
+                "type": "text",
+                "current_text": "三季度工作完成情况",
+                "editable": true
+            }
+        ]
+    },
+    {
+        "slide_id": "s4",
+        "role": "generic",
+        "brief": "感悟寓意环节：讨论龟兔输赢原因，联系生活实际反思骄傲行为，总结“虚心使人进步”道理，鼓励学生做事坚持不懈。",
+        "slots": [
+            {
+                "shape_id": "s4_sh3",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s4_sh4",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s4_sh5",
+                "role": "other",
+                "type": "text",
+                "current_text": "标题名称",
+                "editable": true
+            },
+            {
+                "shape_id": "s4_sh6",
+                "role": "other",
+                "type": "text",
+                "current_text": "文字内容",
+                "editable": true
+            },
+            {
+                "shape_id": "s4_sh7",
+                "role": "other",
+                "type": "text",
+                "current_text": "标题名称",
+                "editable": true
+            },
+            {
+                "shape_id": "s4_sh8",
+                "role": "other",
+                "type": "text",
+                "current_text": "文字内容",
+                "editable": true
+            },
+            {
+                "shape_id": "s4_sh9",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s4_sh10",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s4_sh11",
+                "role": "other",
+                "type": "text",
+                "current_text": "1.文字说明。。。。。。。。。\\n2.文字说明。。。。。。。。。。。。\\n3.文字说明。。。。。。。。。\\n4.文字说明。。。。。。。。。。。。\\n5.文字说明。。。。。。。。。。",
+                "editable": true
+            },
+            {
+                "shape_id": "s4_sh12",
+                "role": "other",
+                "type": "text",
+                "current_text": "创新与成长",
+                "editable": true
+            }
+        ]
+    },
+    {
+        "slide_id": "s5",
+        "role": "generic",
+        "brief": "课堂小结环节：回顾本课生字与故事脉络，教师总结重点知识，齐读结尾段，布置课后向家人讲述故事的任务以巩固记忆。",
+        "slots": [
+            {
+                "shape_id": "s5_sh2",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh3",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh4",
+                "role": "other",
+                "type": "text",
+                "current_text": "存在主要问题",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh6",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh7",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh8",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh9",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh10",
+                "role": "other",
+                "type": "text",
+                "current_text": "标题名称1",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh11",
+                "role": "other",
+                "type": "text",
+                "current_text": "文字。",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh12",
+                "role": "other",
+                "type": "text",
+                "current_text": "标题名称2",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh13",
+                "role": "other",
+                "type": "text",
+                "current_text": "文字。",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh14",
+                "role": "other",
+                "type": "text",
+                "current_text": "标题名称3",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh15",
+                "role": "other",
+                "type": "text",
+                "current_text": "文字。",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh16",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh17",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh18",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s5_sh19",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            }
+        ]
+    },
+    {
+        "slide_id": "s6",
+        "role": "generic",
+        "brief": "课后作业页：包含抄写生字词、有感情朗读、复述故事、续编第二次赛跑故事及收集其他伊索寓言共5项分层作业。",
+        "slots": [
+            {
+                "shape_id": "s6_sh2",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh3",
+                "role": "other",
+                "type": "text",
+                "current_text": "四季度工作规划",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh5",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh6",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh7",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh8",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh9",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh10",
+                "role": "other",
+                "type": "text",
+                "current_text": "标题名称1",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh11",
+                "role": "other",
+                "type": "text",
+                "current_text": "文字",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh12",
+                "role": "other",
+                "type": "text",
+                "current_text": "标题名称2",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh13",
+                "role": "other",
+                "type": "text",
+                "current_text": "文字",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh14",
+                "role": "other",
+                "type": "text",
+                "current_text": "标题名称3",
+                "editable": true
+            },
+            {
+                "shape_id": "s6_sh15",
+                "role": "other",
+                "type": "text",
+                "current_text": "文字",
+                "editable": true
+            }
+        ]
+    },
+    {
+        "slide_id": "s7",
+        "role": "generic",
+        "brief": "板书设计页：左侧展示兔子“快-骄-睡-输”与乌龟“慢-坚-持-赢”的对比路径，右侧醒目呈现寓意“骄傲使人落后，坚持就是胜利”。",
+        "slots": [
+            {
+                "shape_id": "s7_sh1",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh2",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh4",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh5",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh6",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh7",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh8",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh9",
+                "role": "other",
+                "type": "text",
+                "current_text": "标题名称",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh10",
+                "role": "other",
+                "type": "text",
+                "current_text": "文字说明。",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh12",
+                "role": "other",
+                "type": "text",
+                "current_text": "标题名称",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh13",
+                "role": "other",
+                "type": "text",
+                "current_text": "文字说明。",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh15",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh16",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s7_sh17",
+                "role": "other",
+                "type": "text",
+                "current_text": "想法和建议",
+                "editable": true
+            }
+        ]
+    },
+    {
+        "slide_id": "s8",
+        "role": "ending",
+        "brief": "结束页：显示“谢谢观看”或“下课”，配以温馨的师生互动插图或龟兔握手言和的卡通图，留下良好课堂印象。",
+        "slots": [
+            {
+                "shape_id": "s8_sh2",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s8_sh3",
+                "role": "other",
+                "type": "text",
+                "current_text": "汇报人：×××",
+                "editable": true
+            },
+            {
+                "shape_id": "s8_sh4",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s8_sh5",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s8_sh6",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s8_sh7",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s8_sh10",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s8_sh11",
+                "role": "other",
+                "type": "text",
+                "current_text": "",
+                "editable": true
+            },
+            {
+                "shape_id": "s8_sh12",
+                "role": "other",
+                "type": "text",
+                "current_text": "专\\n注\\nAI\ \\n探\\n索未\\n来",
+                "editable": true
+            },
+            {
+                "shape_id": "s8_sh14",
+                "role": "other",
+                "type": "text",
+                "current_text": "感谢观看",
+                "editable": true
+            },
+            {
+                "shape_id": "s8_sh15",
+                "role": "other",
+                "type": "text",
+                "current_text": "TANKS",
+                "editable": true
+            }
+        ]
+    }
+]

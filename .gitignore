@@ -11,6 +11,11 @@ __pycache__/
 venv/
 env/
 
+# week03 项目运行产生的临时文件(不上传)
+week03/hn_cache.json
+week03/hn_top.json
+week03/_day15_tmp/
+
 # 编辑器/系统
 .vscode/
 .idea/
