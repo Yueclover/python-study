@@ -5,19 +5,33 @@ OVERFLOW_TOL = 2.0      # px：超出页面边界的容差
 FIT_SAFETY = 0.99       # 缩放系数安全余量，避免临界仍溢出
 
 
+def _extract_overflows(page_info: dict) -> dict[str, float]:
+    return {
+        "上": float(page_info.get("overflow_top", 0) or 0),
+        "右": float(page_info.get("overflow_right", 0) or 0),
+        "下": float(page_info.get("overflow_bottom", 0) or 0),
+        "左": float(page_info.get("overflow_left", 0) or 0),
+    }
+
+
 def analyze_pages(pages: list[dict], overflow_tol: float = OVERFLOW_TOL) -> list[dict]:
     bad = []
     for p in pages:
-        overflows = {
-            "上": float(p.get("overflow_top", 0) or 0),
-            "下": float(p.get("overflow_bottom", 0) or 0),
-            "左": float(p.get("overflow_left", 0) or 0),
-            "右": float(p.get("overflow_right", 0) or 0),
-        }
-        label, of = max(overflows.items(), key=lambda item: item[1])
-        if of > overflow_tol:
-            bad.append({"page": p.get("page"), "type": "overflow",
-                        "detail": f"{label}溢出约{round(of)}px"})
+        overflows = _extract_overflows(p)
+        worst_label, worst_value = max(overflows.items(), key=lambda item: item[1])
+        if worst_value <= overflow_tol:
+            continue
+
+        details = [
+            f"{label}溢出约{round(value)}px"
+            for label, value in overflows.items()
+            if value > overflow_tol
+        ]
+        bad.append({
+            "page": p.get("page"),
+            "type": "overflow",
+            "detail": "，".join(details) or f"{worst_label}溢出约{round(worst_value)}px",
+        })
     return bad
 
 
@@ -25,40 +39,88 @@ def analyze_pages(pages: list[dict], overflow_tol: float = OVERFLOW_TOL) -> list
 # 浏览器渲染层（Playwright）
 # ---------------------------------------------------------------------------
 
-# 注入浏览器执行：逐 section 测量内容溢出量。
-# 同时结合 scroll 尺寸与后代元素真实边界，避免漏掉绝对定位等脱离文档流的内容。
+# 注入浏览器执行：逐 section 测量真实内容边界。
+# 同时遍历后代元素与文本节点，避免漏掉绝对定位、负偏移、文本越界等场景。
 MEASURE_JS = r"""
 ({ selector }) => {
+  const EXCLUDED_TAGS = new Set(['STYLE', 'SCRIPT', 'NOSCRIPT', 'TEMPLATE']);
   const secs = Array.from(document.querySelectorAll(selector || 'section.slide'));
+
+  const hasExcludedAncestor = (node, root) => {
+    let cur = node.nodeType === Node.TEXT_NODE ? node.parentElement : node;
+    while (cur && cur !== root) {
+      if (EXCLUDED_TAGS.has(cur.tagName)) return true;
+      cur = cur.parentElement;
+    }
+    return false;
+  };
+
+  const isVisibleElement = (el) => {
+    const style = window.getComputedStyle(el);
+    return style.display !== 'none' && style.visibility !== 'hidden';
+  };
+
+  const updateBounds = (rect, bounds) => {
+    if (!rect || (rect.width <= 0 && rect.height <= 0)) return;
+    bounds.left = Math.min(bounds.left, rect.left);
+    bounds.top = Math.min(bounds.top, rect.top);
+    bounds.right = Math.max(bounds.right, rect.right);
+    bounds.bottom = Math.max(bounds.bottom, rect.bottom);
+  };
+
   const measureOverflow = (sec) => {
     const secRect = sec.getBoundingClientRect();
-    let overflowRight = Math.max(0, sec.scrollWidth - sec.clientWidth);
-    let overflowBottom = Math.max(0, sec.scrollHeight - sec.clientHeight);
-    let overflowLeft = 0;
-    let overflowTop = 0;
+    const bounds = {
+      left: secRect.left,
+      top: secRect.top,
+      right: secRect.left,
+      bottom: secRect.top,
+    };
 
     const walker = document.createTreeWalker(sec, NodeFilter.SHOW_ELEMENT);
     while (walker.nextNode()) {
       const el = walker.currentNode;
-      if (el === sec) continue;
-      const style = window.getComputedStyle(el);
-      if (style.display === 'none' || style.visibility === 'hidden') continue;
+      if (el === sec || EXCLUDED_TAGS.has(el.tagName) || hasExcludedAncestor(el, sec)) continue;
+      if (!isVisibleElement(el)) continue;
 
-      const rects = Array.from(el.getClientRects());
-      rects.forEach((rect) => {
-        if (rect.width <= 0 && rect.height <= 0) return;
-        overflowRight = Math.max(overflowRight, rect.right - secRect.right);
-        overflowBottom = Math.max(overflowBottom, rect.bottom - secRect.bottom);
-        overflowLeft = Math.max(overflowLeft, secRect.left - rect.left);
-        overflowTop = Math.max(overflowTop, secRect.top - rect.top);
+      Array.from(el.getClientRects()).forEach((rect) => {
+        updateBounds(rect, bounds);
+      });
+    }
+
+    const textWalker = document.createTreeWalker(sec, NodeFilter.SHOW_TEXT);
+    while (textWalker.nextNode()) {
+      const node = textWalker.currentNode;
+      if (!node.textContent || !node.textContent.trim()) continue;
+      if (hasExcludedAncestor(node, sec)) continue;
+
+      const parent = node.parentElement;
+      if (!parent || !isVisibleElement(parent)) continue;
+
+      const range = document.createRange();
+      range.selectNodeContents(node);
+      Array.from(range.getClientRects()).forEach((rect) => {
+        updateBounds(rect, bounds);
       });
     }
 
     return {
-      overflow_top: Math.max(0, overflowTop),
-      overflow_right: Math.max(0, overflowRight),
-      overflow_bottom: Math.max(0, overflowBottom),
-      overflow_left: Math.max(0, overflowLeft),
+      overflow_top: Math.max(0, secRect.top - bounds.top),
+      overflow_right: Math.max(0, bounds.right - secRect.right),
+      overflow_bottom: Math.max(0, bounds.bottom - secRect.bottom),
+      overflow_left: Math.max(0, secRect.left - bounds.left),
+      content_bounds: {
+        top: bounds.top,
+        right: bounds.right,
+        bottom: bounds.bottom,
+        left: bounds.left,
+      },
+      section_bounds: {
+        top: secRect.top,
+        right: secRect.right,
+        bottom: secRect.bottom,
+        left: secRect.left,
+      },
     };
   };
 
@@ -89,11 +151,11 @@ def render_and_measure(html: str) -> list[dict]:
             for frame in page.frames:
                 try:
                     # 抹掉宿主默认 body 边距/滚动条，避免把"页面没有内嵌 reset"
-                    # 误判成右侧/底部溢出（裸 section 产物常见）
+                    # 误判成页面内容越界；同时禁用伪元素，只测真实内容
                     frame.add_style_tag(content=(
                         "html,body{margin:0!important;padding:0!important;}"
                         "html{overflow:hidden!important;}"
-                        "*::before,*::after{content:none!important;}"  # 伪元素不参与溢出测量
+                        "*::before,*::after{content:none!important;display:none!important;}"
                     ))
                     res = frame.evaluate(MEASURE_JS, {"selector": "section.slide"})
                 except Exception:
@@ -107,7 +169,7 @@ def render_and_measure(html: str) -> list[dict]:
 
 _RESET_CSS = ("html,body{margin:0!important;padding:0!important;}"
               "html{overflow:hidden!important;}"
-              "*::before,*::after{content:none!important;}")  # 伪元素不参与溢出测量
+              "*::before,*::after{content:none!important;display:none!important;}")  # 伪元素不参与溢出测量
 
 
 def check_section_overflow(
@@ -116,7 +178,7 @@ def check_section_overflow(
     section_index: int = 0,
     overflow_tol: float = OVERFLOW_TOL,
 ) -> dict:
-    """检查 HTML 中某个 section 的内容是否溢出其自身盒子。
+    """检查 HTML 中某个 section 的真实内容是否超出其自身盒子。
 
     适用于整页 HTML，也适用于只传单个 ``section`` 片段。
     返回值中的 overflow_top / overflow_right / overflow_bottom / overflow_left
@@ -145,21 +207,20 @@ def check_section_overflow(
                 }
 
             section = sections[section_index]
-            top = float(section.get("overflow_top", 0) or 0)
-            right = float(section.get("overflow_right", 0) or 0)
-            bottom = float(section.get("overflow_bottom", 0) or 0)
-            left = float(section.get("overflow_left", 0) or 0)
+            overflows = _extract_overflows(section)
             return {
                 "found": True,
                 "selector": selector,
                 "section_index": section_index,
                 "page": section.get("page"),
                 "section_id": section.get("section_id"),
-                "overflow": max(top, right, bottom, left) > overflow_tol,
-                "overflow_top": top,
-                "overflow_right": right,
-                "overflow_bottom": bottom,
-                "overflow_left": left,
+                "overflow": max(overflows.values()) > overflow_tol,
+                "overflow_top": overflows["上"],
+                "overflow_right": overflows["右"],
+                "overflow_bottom": overflows["下"],
+                "overflow_left": overflows["左"],
+                "content_bounds": section.get("content_bounds"),
+                "section_bounds": section.get("section_bounds"),
             }
         finally:
             browser.close()
