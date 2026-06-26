@@ -1,0 +1,59 @@
+{
+  "fetched_at": 1781680434,
+  "stories": [
+    {
+      "id": 48561654,
+      "title": "GrapheneOS has been ported to Android 17",
+      "by": "Cider9986",
+      "score": 658,
+      "url": "https://discuss.grapheneos.org/d/36469-grapheneos-has-been-ported-to-android-17-and-official-releases-are-coming-soon",
+      "time": 1781642075,
+      "descendants": 288
+    },
+    {
+      "id": 48555993,
+      "title": "Running local models is good now",
+      "by": "jfb",
+      "score": 1226,
+      "url": "https://vickiboykis.com/2026/06/15/running-local-models-is-good-now/",
+      "time": 1781620617,
+      "descendants": 488
+    },
+    {
+      "id": 48563394,
+      "title": "Humiliating IIS servers for fun and jail time",
+      "by": "denysvitali",
+      "score": 208,
+      "url": "https://mll.sh/humiliating-iis-servers-for-fun-and-jail-time/",
+      "time": 1781650414,
+      "descendants": 49
+    },
+    {
+      "id": 48563609,
+      "title": "Wolfram Language and Mathematica Version 15, AI Assistant, Symbolic Music, More",
+      "by": "alok-g",
+      "score": 147,
+      "url": "https://writings.stephenwolfram.com/2026/06/launching-version-15-of-wolfram-language-mathematica-built-in-useful-ai-lots-of-new-core-functionality/",
+      "time": 1781651744,
+      "descendants": 64
+    },
+    {
+      "id": 48558018,
+      "title": "TIL: You can make HTTP requests without curl using Bash /dev/TCP",
+      "by": "mrshu",
+      "score": 377,
+      "url": "https://mareksuppa.com/til/bash-dev-tcp-http-without-curl/",
+      "time": 1781628058,
+      "descendants": 173
+    },
+    {
+      "id": 48557079,
+      "title": "Calvin and Hobbes and the price of integrity",
+      "by": "pseudolus",
+      "score": 382,
+      "url": "https://therepublicofletters.substack.com/p/calvin-and-hobbes-and-the-price-of",
+      "time": 1781624684,
+      "descendants": 169
+    }
+  ]
+}

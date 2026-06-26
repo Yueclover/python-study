@@ -1,0 +1,10 @@
+{
+  "name": "clover",
+  "skills": [
+    "js",
+    "python"
+  ],
+  "level": 3,
+  "active": true,
+  "note": "中文测试"
+}
