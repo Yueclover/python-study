@@ -1,0 +1,170 @@
+<section id="slide-4" class="slide layout-connectivity" aria-label="第 4 页">
+  <style scoped>
+    .slide {
+      width: 960px;
+      height: 540px;
+      background: #f8fafc;
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #1e293b;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      /* 修改：减小上下内边距，从50px改为40px */
+      padding: 40px 70px;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+    }
+    .page-num {
+      position: absolute;
+      top: 25px; /* 微调位置 */
+      right: 70px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+    .section-label {
+      font-size: 14px;
+      color: #6366f1;
+      font-weight: 600;
+      letter-spacing: 3px;
+      margin-bottom: 6px; /* 微调 margin */
+    }
+    .main-title {
+      font-size: 32px; /* 稍微减小字体 */
+      font-weight: 800;
+      margin: 0 0 20px 0; /* 修改：减小底部 margin，从30px改为20px */
+      color: #0f172a;
+    }
+    .top-bar {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px; /* 修改：减小底部 margin，从28px改为20px */
+    }
+    .spec-pill {
+      flex: 1;
+      background: #fff;
+      border-radius: 10px; /* 稍微减小圆角 */
+      /* 修改：显著减小内边距，从18px 20px改为12px 16px */
+      padding: 12px 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      border: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 12px; /* 减小间隙 */
+    }
+    .pill-icon {
+      width: 36px; /* 修改：减小图标尺寸，从44px改为36px */
+      height: 36px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px; /* 减小图标字体 */
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .pill-info strong {
+      display: block;
+      font-size: 14px; /* 稍微减小字体 */
+      color: #0f172a;
+      line-height: 1.2;
+    }
+    .pill-info span {
+      font-size: 11px; /* 稍微减小字体 */
+      color: #64748b;
+    }
+    .mode-section {
+      background: #fff;
+      border-radius: 12px;
+      /* 修改：减小内边距，从28px改为20px */
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      border: 1px solid #e2e8f0;
+    }
+    .mode-section h3 {
+      font-size: 16px; /* 稍微减小字体 */
+      margin: 0 0 12px 0; /* 修改：减小底部 margin，从18px改为12px */
+      color: #4f46e5;
+    }
+    .mode-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .mode-table th {
+      text-align: left;
+      /* 修改：减小内边距，从10px 14px改为8px 12px */
+      padding: 8px 12px;
+      background: #f1f5f9;
+      font-size: 12px; /* 稍微减小字体 */
+      color: #475569;
+      font-weight: 600;
+    }
+    .mode-table th:first-child { border-radius: 6px 0 0 6px; }
+    .mode-table th:last-child { border-radius: 0 6px 6px 0; }
+    .mode-table td {
+      /* 修改：减小内边距，从12px 14px改为8px 12px */
+      padding: 8px 12px;
+      font-size: 12px; /* 稍微减小字体 */
+      color: #334155;
+      border-bottom: 1px solid #f1f5f9;
+      line-height: 1.4; /* 紧凑行高 */
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px; /* 微调 padding */
+      border-radius: 4px;
+      font-size: 11px; /* 稍微减小字体 */
+      font-weight: 600;
+    }
+    .badge-dual { background: #dbeafe; color: #2563eb; }
+    .badge-tri { background: #ede9fe; color: #7c3aed; }
+  </style>
+  <div class="page-num">03 / 14</div>
+  <div class="section-label">CONNECTIVITY & COMPATIBILITY</div>
+  <h2 class="main-title">连接与兼容</h2>
+  <div class="top-bar">
+    <div class="spec-pill">
+      <div class="pill-icon">芯片</div>
+      <div class="pill-info"><strong>MI-B11 主控芯片</strong><span>全系列统一搭载</span></div>
+    </div>
+    <div class="spec-pill">
+      <div class="pill-icon">BT</div>
+      <div class="pill-info"><strong>蓝牙 5.0</strong><span>低功耗稳定连接</span></div>
+    </div>
+    <div class="spec-pill">
+      <div class="pill-icon">USB</div>
+      <div class="pill-info"><strong>2.4G 无线接收器</strong><span>MiMouse USB Receiver</span></div>
+    </div>
+    <div class="spec-pill">
+      <div class="pill-icon">C</div>
+      <div class="pill-info"><strong>Type-C 接口</strong><span>充电 + 有线连接</span></div>
+    </div>
+  </div>
+  <div class="mode-section">
+    <h3>各产品连接模式一览</h3>
+    <table class="mode-table">
+      <thead>
+        <tr>
+          <th>产品型号</th>
+          <th>连接模式</th>
+          <th>蓝牙通道</th>
+          <th>类型</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>KB6AI 办公键盘</td><td>蓝牙 5.0 + 2.4G 无线</td><td>单通道</td><td><span class="badge badge-dual">双模</span></td></tr>
+        <tr><td>M4AI 对称鼠标</td><td>蓝牙 5.0 + 2.4G 无线</td><td>双通道</td><td><span class="badge badge-dual">双模</span></td></tr>
+        <tr><td>M5AI 人体工学鼠标</td><td>蓝牙 5.0 + 2.4G 无线</td><td>双通道</td><td><span class="badge badge-dual">双模</span></td></tr>
+        <tr><td>MK17AI 机械小键盘</td><td>蓝牙 5.0 + 2.4G + 有线</td><td>单通道</td><td><span class="badge badge-tri">三模</span></td></tr>
+        <tr><td>MK87AI 旗舰机械键盘</td><td>蓝牙 5.0 + 2.4G + 有线</td><td>三通道</td><td><span class="badge badge-tri">三模</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>

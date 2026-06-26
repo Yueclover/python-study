@@ -10,7 +10,7 @@ from .skeleton import build_skeleton
 from .applier import apply_ops
 from .plan import expand_plan
 from .models import ApplyRequest, ApplyPlanRequest
-from .validate import validate_html
+from .validate import validate_html, repair_html
 
 app = FastAPI(title="PPT Editor Service")
 storage = Storage(os.environ.get("PPT_STORAGE", "./storage"))
@@ -73,6 +73,12 @@ def apply_plan_endpoint(req: ApplyPlanRequest):
 @app.post("/validate")
 def validate_endpoint(req: dict):
     return validate_html(req.get("html", ""))
+
+
+@app.post("/fix")
+def fix_endpoint(req: dict):
+    """输入 {"html": htmlStr}，等比缩放修复 section 内容溢出，返回 {"html": htmlStr}。"""
+    return {"html": repair_html(req.get("html", ""))}
 
 
 @app.get("/files/{name}")
